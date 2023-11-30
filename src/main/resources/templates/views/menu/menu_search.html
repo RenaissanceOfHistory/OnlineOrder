@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 菜品搜索 -->
+    <aside th:fragment="aside" class="bg-white rounded shadow-sm">
+        <section class="p-3">
+            <!-- 搜索菜品 -->
+            <article>
+                <h6 class="d-inline-block border-bottom border-2 border-primary opacity-75 pb-1 mb-3">搜索</h6>
+                <div class="input-group input-group-sm">
+                    <input type="text" maxlength="50" placeholder="Search..." id="search-food" class="form-control form-control-sm" />
+                    <button role="button" type="button" class="btn btn-primary opacity-75 search-food-btn">
+                        <img th:src="@{/img/admin/menu_admin/search.svg}" alt="搜索" title="点击搜索" />
+                    </button>
+                </div>
+            </article>
+
+            <!-- 菜单列表 -->
+            <article class="mt-4">
+                <h6 class="d-inline-block border-bottom border-2 border-primary opacity-75 pb-1 mb-3">菜单列表</h6>
+                <ul class="list-unstyled list-group menu-list">
+                    <th:block th:each="food:${page.list}">
+                        <li class="list-inline-item list-group-item-action py-1" th:data-key="${food.id}">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="d-flex align-items-center gap-1">
+                                    <img th:src="@{/img/ordinary/order_menu/right_arrow.svg}" class="food-arrow" alt="右箭头" title="" />
+                                    <span class="d-inline-block">[[${#strings.abbreviate(food.name, 10)}]]</span>
+                                </span>
+                                <span>￥[[${food.price}]]</span>
+                            </div>
+                        </li>
+                    </th:block>
+                </ul>
+            </article>
+        </section>
+
+        <script th:inline="javascript">
+            async function searchFood() {
+                const foodName = $("#search-food").val().trim(),
+                    contextPath = /*[[${#request.contextPath}]]*/ '';
+                location.href = `${contextPath}/menus/list?name=${foodName}`;
+            }
+
+            $(function () {
+               $(".search-food-btn").on("click", () => searchFood());
+            });
+        </script>
+    </aside>
+</html>

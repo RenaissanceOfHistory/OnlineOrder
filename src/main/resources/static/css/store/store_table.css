@@ -1,0 +1,15 @@
+.store-table li span:first-child {
+    width: 20%;
+}
+
+.store-table li span {
+    width: 25%;
+}
+
+.store-table li span:last-child {
+    text-align: right;
+}
+
+.look-food {
+    transform: scale(0.7);
+}

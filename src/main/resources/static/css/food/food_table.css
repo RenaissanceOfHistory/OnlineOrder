@@ -1,0 +1,157 @@
+.food-table li,
+.user-table li,
+.order-table li,
+.store-table li,
+.stock-table li,
+.cart .order-table li {
+    display: flex;
+    align-items: center;
+    font-size: 0.88em;
+}
+
+.food-table li:first-child,
+.user-table li:first-child,
+.order-table li:first-child,
+.store-table li:first-child,
+.stock-table li:first-child,
+.cart .order-table li:first-child {
+    font-size: 0.97em;
+}
+
+.food-table li:first-child span:first-child,
+.user-table li:first-child span:first-child,
+.order-table li:first-child span:first-child,
+.store-table li:first-child span:first-child,
+.stock-table li:first-child span:first-child,
+.cart .order-table li:first-child span:first-child {
+    padding-left: 1.6rem;
+}
+
+.food-table li span img,
+.user-table li span img,
+.order-table li span img,
+.store-table li span img,
+.stock-table li span img,
+.cart .order-table li span img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.food-table li span:first-child,
+.user-table li span:first-child,
+.order-table li span:first-child,
+.store-table li span:first-child,
+.stock-table li span:first-child,
+.cart .order-table li span:first-child {
+    width: 8%;
+}
+
+.food-table li span:first-child label,
+.user-table li span:first-child label,
+.order-table li span:first-child label,
+.store-table li span:first-child label,
+.stock-table li span:first-child label {
+    width: 100%;
+    padding-left: 1.6rem;
+}
+
+.food-table li span:nth-child(2) {
+    width: 8%;
+}
+
+.food-table li span:nth-child(3) {
+    width: 15%;
+}
+
+.food-table li span:nth-child(4) {
+    width: 8%;
+}
+
+.food-table li span:nth-child(5) {
+    width: 8%;
+}
+
+.food-table li span:nth-child(6) {
+    width: 12%;
+}
+
+.food-table li span:nth-child(7) {
+    width: 15%;
+}
+
+.food-table li span:nth-child(8) {
+    width: 10%;
+}
+
+.food-table li span:nth-child(9) {
+    width: 9%;
+}
+
+.food-table li span:last-child {
+    width: 7%;
+    text-align: center;
+}
+
+.food-table .listed-action {
+    transform: scale(0.8);
+}
+
+.food-table .order-status {
+    font-size: 0.7em;
+    transform: scale(0.9);
+}
+
+.food-table .action .action-detail,
+.user-table .action .action-detail,
+.order-table .action .action-detail,
+.store-table .action .action-detail {
+    display: none;
+    position: absolute;
+    z-index: 777;
+    top: 100%;
+    right: 10%;
+    width: 150px;
+    text-align: center;
+    background-color: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .5s;
+}
+
+.food-table .action .action-detail button,
+.food-table .action .action-detail a,
+.user-table .action .action-detail button,
+.user-table .action .action-detail a,
+.order-table .action .action-detail button,
+.order-table .action .action-detail a,
+.store-table .action .action-detail button,
+.store-table .action .action-detail a {
+    transform: scale(0.7);
+    margin: 5px 0;
+}
+
+.food-table .action:hover .action-detail,
+.food-table .action-detail:hover,
+.user-table .action:hover .action-detail,
+.user-table .action-detail:hover,
+.order-table .action:hover .action-detail,
+.order-table .action-detail:hover,
+.store-table .action:hover .action-detail,
+.store-table .action-detail:hover {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.food-table .food-table-img,
+.user-table .user-table-img,
+.store-table .user-table-img,
+.cart .order-table .food-table-img {
+    position: absolute;
+    z-index: 233;
+    width: 38px;
+    height: 38px;
+    top: -18px;
+    left: 0;
+}

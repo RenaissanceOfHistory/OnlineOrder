@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 用户表单组件 -->
+<article th:fragment="form" class="p-4">
+    <!-- 头部 -->
+    <header class="mb-3">
+        <h4>用户信息</h4>
+    </header>
+
+    <!-- 用户表单 -->
+    <form class="food-form bg-white rounded-top p-3 text-secondary">
+        <input type="text" id="uid" style="display: none;" th:value="${null eq user ? '' : user.id}" />
+        <input type="text" id="userDetailId" style="display: none;" th:value="${null eq userDetail ? '' : userDetail.id}" />
+
+        <!-- 用户名 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="username" class="form-label">用户名</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <input type="text" maxlength="255" id="username"
+                       class="form-control" th:value="${null eq user ? '' : user.username}" />
+            </div>
+        </div>
+
+        <!-- 邮箱 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="email" class="form-label">邮箱</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <input id="email" type="text" maxlength="255"
+                       class="form-control" th:value="${null eq userDetail ? '' : userDetail.email}" />
+            </div>
+        </div>
+
+        <!-- 电话 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="phone" class="form-label">电话</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <input id="phone" type="text" maxlength="255"
+                       class="form-control" th:value="${null eq userDetail ? '' : userDetail.phone}" />
+            </div>
+        </div>
+
+        <!-- 住址 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="address" class="form-label">住址</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <textarea id="address" class="form-control font-monospace" th:text="${null eq userDetail ? '' : userDetail.address}"
+                          maxlength="255" rows="2" placeholder="住址信息..."></textarea>
+            </div>
+        </div>
+
+        <!-- 用户图片 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="userImage" class="form-label">用户图片</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <label for="userImage">
+                    <img th:src="@{${null eq userDetail ? '' : userDetail.avatar} eq '' ? '/img/header/avatar.svg' : '/users/image/download/' + ${user.id}}"
+                         class="img-thumbnail user-img"
+                         style="width: 100px; height: 100px;" title="点击选择图片" alt="选择用户头像" />
+                </label>
+                <input type="file" style="display: none;" id="userImage" accept=".jpg, .png, .jpeg" />
+            </div>
+        </div>
+    </form>
+
+    <!-- 底部 -->
+    <footer class="bg-white rounded-bottom p-3 text-center text-md-start">
+        <button class="btn btn-primary opacity-75 user-submit-btn col-12 col-sm-8 col-md-2">提交</button>
+    </footer>
+
+    <script th:src="@{/js/user/user_form.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(function () {
+            $("#userImage").on("change", async function () {
+                await changeImage(this, ".user-img");
+            });
+            $(".user-submit-btn").on("click", async function () {
+                let callback = addItem,
+                    contextPath = /*[[${#request.contextPath}]]*/ '';
+                if (null !== [[${user}]]) callback = updateItem;
+                await callback(contextPath, "users", getUserObj(contextPath));
+            });
+        });
+    </script>
+</article>
+</html>

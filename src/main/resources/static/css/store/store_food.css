@@ -1,0 +1,8 @@
+.store-food img {
+    width: 100px;
+    height: 100px;
+}
+
+.store-food .food-info {
+    font-size: 0.65em;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 我的简介 -->
+    <article th:fragment="article" class="rounded bg-white profile-user">
+        <header class="p-3 border-bottom small text-muted">
+            <h6 class="m-0">我的简介</h6>
+        </header>
+
+        <section class="p-3">
+            <form>
+                <!-- 昵称 -->
+                <div class="d-flex align-items-center gap-2">
+                    <img th:src="@{/users/avatar/download}" class="avatar" />
+                    <div class="nickname">
+                        <span class="font-monospace fw-bold">[[${user.username}]]</span><br />
+                        <span class="text-secondary">昵称</span>
+                    </div>
+                </div>
+
+                <!-- 个人描述 -->
+                <div class="mt-3 text-muted">
+                    <label class="form-label mb-1" for="desc">个人描述</label>
+                    <textarea class="form-control font-monospace" id="desc" rows="3" maxlength="255"></textarea>
+                </div>
+
+                <!-- 用户名 -->
+                <div class="mt-2 text-muted">
+                    <label for="username" class="form-label mb-1">用户名</label>
+                    <input type="text" id="username" maxlength="255" class="form-control form-control-sm text-muted" th:value="${user.username}" />
+                </div>
+
+                <!-- 邮箱 -->
+                <div class="mt-2 text-muted">
+                    <label for="email" class="form-label mb-1">邮箱</label>
+                    <input type="email" id="email" maxlength="255" class="form-control form-control-sm text-muted" th:value="${userDetail.email}" />
+                </div>
+
+                <!-- 密码 -->
+                <div class="mt-2 text-muted">
+                    <label for="password" class="form-label mb-1">密码</label>
+                    <input type="password" id="password" maxlength="255" class="form-control form-control-sm text-muted" th:value="${user.password}" />
+                </div>
+
+                <div class="text-center text-md-start pt-3">
+                    <button role="button" type="button" class="btn btn-sm btn-primary opacity-50 update-user-btn col-12 col-sm-5 col-md-3">保存</button>
+                </div>
+            </form>
+        </section>
+    </article>
+</html>

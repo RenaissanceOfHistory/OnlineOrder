@@ -1,0 +1,40 @@
+.stock-table li:first-child span:last-child {
+    padding-left: 1.3rem;
+}
+
+.stock-table .food-table-img {
+    width: 30px;
+    height: 30px;
+}
+
+.stock-table li span:nth-child(2) {
+    width: 10%;
+}
+
+.stock-table li span:nth-child(3) {
+    width: 20%;
+}
+
+.stock-table li span:nth-child(4) {
+    width: 8%;
+}
+
+.stock-table li span:nth-child(5) {
+    width: 20%;
+}
+
+.stock-table li span:nth-child(6) {
+    width: 10%;
+}
+
+.stock-table li span:nth-child(7) {
+    width: 15%;
+}
+
+.stock-table li span:last-child {
+    width: 10%;
+}
+
+.add-stock-btn {
+    transform: scale(0.7);
+}

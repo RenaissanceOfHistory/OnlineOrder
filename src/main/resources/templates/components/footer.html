@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <footer th:fragment="footer">
+        <div class="rounded-circle to-top" onclick="window.scrollTo(0,0)">V</div>
+
+        <script>
+            $(function () {
+                $(document).on("scroll", function () {
+                    if ($(this).scrollTop() > 100) {
+                        $(".to-top").css("display", "block");
+                    }
+                });
+            });
+        </script>
+    </footer>
+</html>

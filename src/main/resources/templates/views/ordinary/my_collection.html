@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 我的收藏 -->
+    <th:block th:fragment="article">
+        <header class="py-2">
+            <div class="d-flex align-items-center justify-content-between">
+                <h6>我的收藏</h6>
+                <span class="small d-flex align-items-center gap-1">
+                    <img th:src="@{/img/admin/sales_amount/home.svg}" style="width: 15px; height: 15px;" />
+                    <span class="fw-bold">Dashboard</span> || <span>我的收藏</span>
+                </span>
+            </div>
+        </header>
+
+        <section class="bg-white rounded-top p-2">
+            <!-- 无数据 -->
+            <div th:if="${#lists.isEmpty(page.list)}" class="row p-0 m-0">
+                <div class="col-12 col-sm-6 col-md-4 mx-auto p-3">
+                    <img th:src="@{/img/admin/menu_admin/no_data.svg}"
+                         alt="无数据" title="" class="mx-auto d-block w-75 h-auto mt-5" />
+                    <h6 class="text-muted mt-2 mx-auto text-center mb-5 small">无数据</h6>
+                </div>
+            </div>
+
+            <!-- 有数据 -->
+            <div th:unless="${#lists.isEmpty(page.list)}" class="row px-1">
+                <div class="col-12 col-sm-6 col-lg-3 store-food mb-2 mb-lg-0 px-1" th:each="food:${page.list}">
+                    <div class="card">
+                        <a th:href="@{/menus/food/detail(id=${food.id},sid=${food.sid})}" class="text-decoration-none">
+                            <div class="card-body d-flex align-items-center justify-content-start gap-2">
+                                <img th:src="@{/foods/image/download/{id}(id=${food.id})}"
+                                     class="card-img"
+                                     th:onerror="'javascript:this.src=\'' + @{/img/admin/menu_admin/no_data.svg} + '\''"
+                                     th:alt="${food.name}" th:title="${food.name}" />
+                                <div class="card-text food-info">
+                                    <h6 class="text-info">[[${#strings.abbreviate(food.name, 10)}]]</h6>
+                                    <span class="text-secondary">店铺：[[${#strings.abbreviate(storeMap[food.sid], 7)}]]</span><br />
+                                    <span class="text-muted">剩余：[[${food.stock}]]</span><br />
+                                    <span class="text-success">单价：￥[[${food.price}]]</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </th:block>
+</html>

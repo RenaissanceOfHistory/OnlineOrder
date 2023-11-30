@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 库存管理 -->
+<th:block th:fragment="article">
+    <!-- 头部 -->
+    <header class="p-2 d-flex align-items-center flex-wrap">
+        <!-- 标题 -->
+        <h6 class="p-2 pb-md-0 d-inline-block col-12 col-md-5">已上架菜品列表</h6>
+
+        <!-- 库存模糊查询 -->
+        <form class="d-inline-block me-md-1 ms-md-auto col-12 col-sm-6 col-lg-3" action="javascript:void(0)">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" id="search-stock" th:value="${searchFood eq null ? '' : searchFood.name}"
+                       maxlength="255" style="width: 10em;" placeholder="Search" />
+                <button class="btn btn-primary opacity-75 stock-btn">
+                    <img th:src="@{/img/admin/menu_admin/search.svg}" />
+                </button>
+            </div>
+        </form>
+    </header>
+
+
+    <!-- 区 -->
+    <section class="bg-white rounded-2 mt-3">
+        <!-- 标题 -->
+        <div class="border-bottom border-2 p-3">
+            <h6 class="text-secondary">已上架菜品列表</h6>
+        </div>
+
+        <!-- 表格显示 -->
+        <article th:replace="~{views/stock/stock_table::article}"></article>
+        <!-- 卡片显示 -->
+        <article th:replace="~{views/stock/stock_card::article}"></article>
+        <!-- 分页 -->
+        <aside th:replace="~{components/pagination::pagination('stocks')}"></aside>
+    </section>
+
+
+    <script th:src="@{/js/admin/stock_admin.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(function () {
+            const contextPath = /*[[${#request.contextPath}]]*/ '',
+                eventList = [
+                    {element: ".stock-btn", event: "click",
+                        callback: queryStock, params: {contextPath: contextPath}},
+                    {element: ".select-page", event: "change", callback: changeStockPage, params: {contextPath: contextPath}}
+                ];
+
+            eventList.forEach(item =>  $(item.element).on(item.event, async () => await item.callback(item.params)));
+            $(".add-stock-btn").on("click", async function f() {
+                await addStock(contextPath, $(this).data("id"), $(this).data("stock"));
+            })
+        });
+    </script>
+</th:block>
+</html>

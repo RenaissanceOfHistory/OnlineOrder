@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{components/import::head}" />
+    <th:block th:replace="~{components/import::link}" />
+    <th:block th:replace="~{components/import::script}" />
+</head>
+<body>
+<noscript>抱歉，您的浏览器不支持 <code>JavaScript</code>!</noscript>
+
+<div class="container-fluid">
+    <header th:replace="~{components/header::header}"></header>
+
+    <section class="row" style="height: 89vh;">
+        <div class="col-2 p-0">
+            <aside th:replace="~{views/admin/function::aside}"></aside>
+        </div>
+        <div class="col-10 bg-light">
+            <article class="store-food p-3">
+                <header class="py-2">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h6>菜单列表</h6>
+                        <span class="small d-flex align-items-center gap-1">
+                            <img th:src="@{/img/admin/sales_amount/home.svg}" style="width: 15px; height: 15px;" />
+                            <span class="fw-bold">Dashboard</span> || <span>菜单列表</span>
+                       </span>
+                    </div>
+                </header>
+
+                <section class="bg-white rounded-top p-2">
+                    <!-- 无数据 -->
+                    <th:block th:if="${#lists.isEmpty(page.list)}">
+                        <div class="row p-0 m-0">
+                            <div class="col-12 col-sm-6 col-md-4 mx-auto p-3">
+                                <img th:src="@{/img/admin/menu_admin/no_data.svg}"
+                                     alt="无数据" title="" class="mx-auto d-block w-75 h-auto mt-5" />
+                                <h6 class="text-muted mt-2 mx-auto text-center mb-5 small">无数据</h6>
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <!-- 有数据 -->
+                    <th:block th:unless="${#lists.isEmpty(page.list)}">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-lg-3 store-food mb-2 mb-lg-0" th:each="food:${page.list}">
+                                <div class="card">
+                                    <div class="card-body d-flex align-items-center justify-content-start gap-2">
+                                        <img th:src="@{/foods/image/download/{id}(id=${food.id})}"
+                                             class="card-img"
+                                             th:onerror="'javascript:this.src=\'' + @{/img/admin/menu_admin/no_data.svg} + '\''"
+                                             th:alt="${food.name}" th:title="${food.name}" />
+                                        <div class="card-text food-info">
+                                            <h6 class="text-info">[[${#strings.abbreviate(food.name, 10)}]]</h6>
+                                            <span class="text-secondary">店铺：[[${#strings.abbreviate(store.name, 7)}]]</span><br />
+                                            <span class="text-muted">剩余：[[${food.stock}]]</span><br />
+                                            <span class="text-success">单价：￥[[${food.price}]]</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </section>
+
+                <!-- 分页 -->
+                <aside th:insert="~{components/pagination_arrow::pagination('/stores/food', '&id=' + ${store.id} + '&name=' + ${store.name})}"
+                       class="bg-white rounded-bottom p-2"></aside>
+            </article>
+        </div>
+    </section>
+
+    <footer th:replace="~{components/footer::footer}"></footer>
+</div>
+</body>
+</html>

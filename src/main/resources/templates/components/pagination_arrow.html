@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 分页组件 -->
+<th:block th:fragment="pagination(path, params)">
+    <div th:if="${not page.isFirstPage and not page.isLastPage}" class="btn-group">
+        <a class="btn btn-outline-light link-dark"
+           th:classappend="${page.isFirstPage} ? 'disabled' : ''"
+           th:href="|@{{path}(pageNum=${page.prePage},pageSize=${page.pageSize},path=${path})}${params}|">&lt;</a>
+        <button class="btn btn-primary rounded disabled px-3">[[${page.pageNum}]]</button>
+        <a class="btn btn-outline-light link-dark"
+           th:classappend="${page.isLastPage} ? 'disabled' : ''"
+           th:href="|@{{path}(pageNum=${page.nextPage},pageSize=${page.pageSize},path=${path})}${params}|">&gt;</a>
+    </div>
+</th:block>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 登录组件 -->
+    <div th:fragment="login" id="login">
+        <div class="remember-forgot d-flex align-items-center justify-content-between text-muted small user-select-none">
+            <label for="remember" class="form-check-label">
+                <input id="remember" type="checkbox" class="form-check-input me-1" />记住我
+            </label>
+            <a th:href="@{#}" class="link-secondary text-decoration-none">忘记密码？</a>
+        </div>
+        <button role="button" type="button" class="btn btn-primary btn-sm mt-3 opacity-75" id="submit-btn">Login</button>
+        <p class="text-secondary small mt-2">还没有账号？
+            <span class="text-primary text-opacity-75 enroll-link" style="cursor: pointer;">注册</span>
+        </p>
+
+        <script type="text/javascript" th:inline="javascript">
+            $(function () {
+                init();
+                $("#submit-btn").on("click",  function () {
+                    login([[${#request.getContextPath()}]]);
+                });
+                $(".enroll-link").on("click", function () {
+                    $("#enroll").css("display", "block");
+                    $("#login").css("display", "none");
+                });
+            });
+        </script>
+    </div>
+
+
+    <!-- 注册组件 -->
+    <div th:fragment="enroll" id="enroll" style="display: none;">
+        <button role="button" type="button" class="btn btn-primary btn-sm mt-3 opacity-75" id="enroll-btn">Sign up</button>
+        <p class="text-secondary small mt-2">已有账号？
+            <span class="text-primary text-opacity-75 login-link" style="cursor:pointer;">登录</span>
+        </p>
+
+        <script th:src="@{/js/login/enroll.js}"></script>
+        <script type="text/javascript" th:inline="javascript">
+            $(function () {
+                $("#enroll-btn").on("click", async () => await enroll([[${#request.getContextPath()}]]));
+                $(".login-link").on("click", () => {
+                    $("#enroll").css("display", "none");
+                    $("#login").css("display", "block");
+                });
+            });
+        </script>
+    </div>
+</html>

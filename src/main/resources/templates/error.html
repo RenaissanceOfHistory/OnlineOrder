@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #eee;
+            padding: 10px;
+            color: rgba(0, 0, 0, 0.67);
+            overflow: hidden;
+        }
+
+        h1 {
+            position: absolute;
+            top: 10%;
+            left: 0;
+            width: 20vw;
+            animation: motion 5s linear forwards;
+            animation-iteration-count: infinite;
+            transition: 8s;
+            overflow: hidden;
+        }
+
+        @keyframes motion {
+            0% {left: 0;}
+            25% {left: 25vw;}
+            50% {left: 50vw;}
+            75% {
+                left: 75vw;
+                opacity: 0.5;
+            }
+            100% {
+                left: 90vw;
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>发生什么事了？</h1>
+    </div>
+</body>
+</html>

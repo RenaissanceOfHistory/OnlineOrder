@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 订单管理 -->
+<th:block th:fragment="article">
+    <!-- 头部 -->
+    <header class="p-2 d-flex align-items-center flex-wrap">
+        <!-- 标题 -->
+        <h6 class="p-2 pb-md-0 d-inline-block">订单列表</h6>
+
+        <!-- 按钮 -->
+        <button role="button" class="btn btn-danger opacity-75 btn-sm me-auto delete-order-batch">批量删除</button>
+
+        <!-- 订单模糊查询 -->
+        <form class="d-inline-block me-md-1" action="javascript:void(0)">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" id="search-order"
+                       maxlength="255" style="width: 10em;" placeholder="Search" />
+                <button class="btn btn-primary opacity-75 order-btn">
+                    <img th:src="@{/img/admin/menu_admin/search.svg}" />
+                </button>
+            </div>
+        </form>
+    </header>
+
+    <!-- 区 -->
+    <section class="bg-white rounded-2 mt-3">
+        <!-- 标题 -->
+        <div class="border-bottom border-2 p-3">
+            <h6 class="text-secondary">订单列表</h6>
+        </div>
+
+        <!-- 表格显示 -->
+        <article th:replace="~{views/order/order_table::article}"></article>
+        <!-- 卡片显示 -->
+        <article th:replace="~{views/order/order_card::article}"></article>
+        <!-- 分页 -->
+        <aside th:replace="~{components/pagination::pagination('orders')}"></aside>
+    </section>
+
+    <script th:src="@{/js/admin/order_admin.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        const contextPath = /*[[${#request.contextPath}]]*/ '',
+            eventList = [
+                {element: ".delete-order-batch", event: "click",
+                    callback: removeBatch, params: {contextPath: contextPath, element: ".order-id", prefix: "orders"}},
+                {element: ".order-btn", event: "click", callback: queryOrder, params: {contextPath: contextPath}},
+                {element: ".select-page", event: "change", callback: changeOrderPage, params: {contextPath: contextPath}}
+            ];
+
+        eventList.forEach(item => $(item.element).on(item.event, async () => await item.callback(item.params)));
+        $(".order-remove-btn").on("click", async function () {
+            await removeItem({contextPath: contextPath, id: $(this).data("oid"), prefix: "orders"});
+        });
+    </script>
+</th:block>
+</html>

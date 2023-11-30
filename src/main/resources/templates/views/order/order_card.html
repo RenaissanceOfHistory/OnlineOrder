@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 订单卡片 -->
+<article th:fragment="article" class="order-card">
+    <!-- 无数据 -->
+    <th:block th:if="${#lists.isEmpty(page.list)}">
+        <img th:src="@{/img/admin/menu_admin/no_data.svg}"
+             alt="无数据" title="" class="mx-auto d-block w-50 h-auto mt-5" />
+        <h6 class="text-muted mt-2 mx-auto text-center mb-5 small">无数据</h6>
+    </th:block>
+
+    <!-- 有数据 -->
+    <th:block th:unless="${#lists.isEmpty(page.list)}">
+        <div class="card mt-4 mb-3" th:each="order:${page.list}">
+            <!-- 卡片头 -->
+            <header class="card-header bg-primary bg-opacity-50 text-white text-center py-0">
+                <h6 class="card-title py-3 my-0" title="ID & 商品名称">
+                    [[${order.id}]]/[[${#strings.abbreviate(order.food.name, 7)}]]
+                </h6>
+            </header>
+            <!-- 卡片体 -->
+            <section class="card-body p-0">
+                <ul class="list-unstyled list-group-flush my-0">
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">单价</span>
+                        <span class="col-8">[[${order.food.price}]]</span>
+                    </li>
+
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">购买数量</span>
+                        <span class="col-8">[[${order.count}]]</span>
+                    </li>
+
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">总价</span>
+                        <span class="col-8">[[${order.price}]]</span>
+                    </li>
+
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">收货人</span>
+                        <span class="col-8">[[${#strings.abbreviate(order.user.username, 12)}]]</span>
+                    </li>
+
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">下单时间</span>
+                        <span class="col-8">[[${#dates.format(order.createTime, 'yyyy年MM月dd日 hh时mm分ss秒')}]]</span>
+                    </li>
+
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">订单状态</span>
+                        <span class="col-8 order-status" th:switch="${#strings.toString(order.status)}">
+                            <span th:case="Undelivered">未派送</span>
+                            <span th:case="Deliver">正派送</span>
+                            <span th:case="Delivered">已派送</span>
+                        </span>
+                    </li>
+
+                    <li class="list-group-item d-flex align-items-center justify-content-evenly action">
+                        <span th:switch="${#strings.toString(order.status)}" class="listed-action">
+                            <a th:case="Undelivered" th:href="@{/orders/status(id=${order.id},status='Deliver')}" class="btn btn-sm btn-primary opacity-75">派送</a>
+                            <a th:case="Deliver" th:href="@{/orders/status(id=${order.id},status='Deliver')}" class="btn btn-sm btn-secondary">派送</a>
+                            <a th:case="Delivered" th:href="@{/orders/status(id=${order.id},status='Deliver')}" class="btn btn-sm btn-primary opacity-75">派送</a>
+                        </span>
+                        <a role="button" class="btn btn-sm btn-primary opacity-75 update-order"
+                           th:href="@{/orders/form(id=${order.id})}">
+                            <img th:src="@{/img/admin/menu_admin/edit_white.svg}" title="" alt="" />
+                            <span>修改</span>
+                        </a>
+                        <button role="button" class="btn btn-sm btn-danger opacity-75 order-remove-btn" th:data-oid="${order.id}">
+                            <img th:src="@{/img/admin/menu_admin/trash.svg}" title="" alt="" />
+                            <span>删除</span>
+                        </button>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </th:block>
+</article>
+</html>

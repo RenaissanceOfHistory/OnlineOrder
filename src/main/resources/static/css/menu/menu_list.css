@@ -1,0 +1,64 @@
+.menu-card .tool img,
+.menu-card .star-list img {
+    width: 17px;
+    height: 17px;
+}
+
+.menu-card {
+    font-size: 0.77em;
+}
+
+.menu-card .food-img {
+    height: 150px;
+    transition: 0.3s;
+    object-fit: cover;
+}
+
+.menu-card .card-header {
+    opacity: 0.8;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.menu-card .card-header .tool {
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.menu-card .card-header:hover,
+.menu-card .card-header:hover .tool {
+    opacity: 1;
+}
+
+.menu-card .card-header:hover .food-img {
+    transform: scale(1.1);
+}
+
+.menu-card .removed-tip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 222;
+    width: 100%;
+    height: 100%;
+    font-size: 1.22rem;
+    color: #fff;
+}
+
+.menu-card .tool .cart-tool img:last-child {
+    display: none;
+    transition: 0.3s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.menu-card .tool .cart-tool:active img:first-child {
+    display: none;
+}
+
+.menu-card .tool .cart-tool:active img:last-child {
+    display: inline-block;
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.2);
+}

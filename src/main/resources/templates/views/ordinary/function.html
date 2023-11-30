@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 普通用户侧边栏 -->
+    <aside th:fragment="aside" class="text-white user-select-none m-0 border-top h-100">
+        <div class="list-group list-unstyled w-100">
+            <!-- 订餐 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="0" th:href="@{/menus/list}"
+                th:style="|background-color: ${funcIdx eq 0 ? '#555' : ''}|"  >
+                <img th:src="@{/img/ordinary/function/order_food.svg}" />
+                <span class="ps-3">订餐</span>
+            </a>
+
+            <!-- 我的收藏 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="1" th:href="@{/menus/collection}"
+                th:style="|background-color: ${funcIdx eq 1 ? '#555' : ''}|">
+                <img th:src="@{/img/ordinary/function/collection.svg}" />
+                <span class="ps-3">我的收藏</span>
+            </a>
+
+            <!-- 购物车 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="2" th:href="@{/menus/cart}"
+                th:style="|background-color: ${funcIdx eq 2 ? '#555' : ''}|">
+                <img th:src="@{/img/ordinary/function/cart_full.svg}" />
+                <span class="ps-3">购物车</span>
+            </a>
+
+            <!-- 我的订单 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="3" th:href="@{/menus/order}"
+                th:style="|background-color: ${funcIdx eq 3 ? '#555' : ''}|">
+                <img th:src="@{/img/ordinary/function/truck.svg}" />
+                <span class="ps-3">我的订单</span>
+            </a>
+        </div>
+    </aside>
+</html>

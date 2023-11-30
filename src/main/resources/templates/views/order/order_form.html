@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 订单表单组件 -->
+<article th:fragment="form" class="p-4">
+    <!-- 头部 -->
+    <header class="mb-3">
+        <h4>订单信息</h4>
+    </header>
+
+    <!-- 订单表单 -->
+    <form class="food-form bg-white rounded-top p-3 text-secondary">
+        <input type="text" id="orderId" style="display: none;" th:value="${order.id}" />
+
+        <!-- 用户 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="uid" class="form-label">用户</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <select class="form-select" id="uid">
+                    <option disabled="disabled" hidden="hidden" selected="selected">--选择用户：</option>
+                    <option th:each="user:${userList}" th:value="${user.id}" th:selected="${order.uid eq user.id}">
+                        [[${user.username}]]
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 购买商品 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="fid" class="form-label">购买商品</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <select id="fid" class="form-select text-muted">
+                    <option disabled="disabled" hidden="hidden" selected="selected">--选择菜品：</option>
+                    <option th:each="food:${foodList}" th:value="${food.id}"
+                            th:selected="${order.fid eq food.id}">
+                        [[${food.name}]]
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 数量 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="amount" class="form-label">数量</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <input id="amount" type="number" maxlength="10" min="1" step="1"
+                       class="form-control" th:value="${order.count}" />
+            </div>
+        </div>
+    </form>
+
+    <!-- 底部 -->
+    <footer class="bg-white rounded-bottom p-3 text-center text-md-start">
+        <button class="btn btn-primary opacity-75 order-submit-btn col-12 col-sm-8 col-md-2">提交</button>
+    </footer>
+
+    <script th:src="@{/js/order/order_form.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(function () {
+            const contextPath = /*[[${#request.contextPath}]]*/ '';
+            $(".order-submit-btn").on("click", async function () {
+                await updateItem(contextPath, "orders", getOrderObj());
+            });
+        });
+    </script>
+</article>
+</html>

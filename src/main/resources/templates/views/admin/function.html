@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 管理员侧边栏 -->
+    <aside th:fragment="aside" class="text-white user-select-none m-0 border-top h-100">
+        <div class="list-group list-unstyled w-100 function-list">
+            <!-- 菜单管理 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="0" th:href="@{/foods/list}"
+                th:style="|background-color: ${funcIdx eq 0 ? '#555' : ''}|">
+                <img th:src="@{/img/admin/function/warehouse-solid.svg}" title="" alt="" />
+                <span class="ps-3">菜单管理</span>
+            </a>
+
+            <!-- 客户管理 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="1" th:href="@{/users/list}"
+                th:style="|background-color: ${funcIdx eq 1 ? '#555' : ''}|">
+                <img th:src="@{/img/admin/function/box.svg}" title="" alt="" />
+                <span class="ps-3">客户管理</span>
+            </a>
+
+            <!-- 订单管理 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="2" th:href="@{/orders/list}"
+                th:style="|background-color: ${funcIdx eq 2 ? '#555' : ''}|">
+                <img th:src="@{/img/admin/function/truck.svg}" title="" alt="" />
+                <span class="ps-3">订单管理</span>
+            </a>
+
+            <!-- 销售量统计 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="3" th:href="@{/statistics/sales/amount}"
+                th:style="|background-color: ${funcIdx eq 3 ? '#555' : ''}|">
+                <img th:src="@{/img/admin/function/pie_chart.svg}" title="" alt="" />
+                <span class="ps-3">销售量统计</span>
+            </a>
+
+            <!-- 销售额统计 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="4" th:href="@{/statistics/sales/sum}"
+                th:style="|background-color: ${funcIdx eq 4 ? '#555' : ''}|">
+                <img th:src="@{/img/admin/function/pie_chart.svg}" title="" alt="" />
+                <span class="ps-3">销售额统计</span>
+            </a>
+
+            <!-- 店铺管理 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="5" th:href="@{/stores/list}"
+                th:style="|background-color: ${funcIdx eq 5 ? '#555' : ''}|">
+                <img th:src="@{/img/admin/function/floor.svg}" title="" alt="" />
+                <span class="ps-3">店铺管理</span>
+            </a>
+
+            <!-- 库存管理 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="6" th:href="@{/stocks/list}"
+                th:style="|background-color: ${funcIdx eq 6 ? '#555' : ''}|">
+                <img th:src="@{/img/admin/function/stock.svg}" title="" alt="" />
+                <span class="ps-3">库存管理</span>
+            </a>
+
+            <!-- 修改密码 -->
+            <a class="p-3 d-flex align-items-center link-light text-decoration-none" data-index="7" th:href="@{/users/password}"
+                th:style="|background-color: ${funcIdx eq 7 ? '#555' : ''}|">
+                <img th:src="@{/img/admin/function/key.svg}" title="" alt="" />
+                <span class="ps-3">修改密码</span>
+            </a>
+        </div>
+    </aside>
+</html>

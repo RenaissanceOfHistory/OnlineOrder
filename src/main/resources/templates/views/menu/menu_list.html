@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 菜品列表 -->
+    <article th:fragment="article" class="bg-white rounded-top menu-card shadow-sm">
+        <!-- 无数据 -->
+        <th:block th:if="${#lists.isEmpty(page.list)}">
+            <div class="py-5 d-flex align-items-center flex-column bg-white">
+                <img th:src="@{/img/admin/menu_admin/no_data.svg}" alt="无数据" title="" class="w-25 h-auto" />
+                <h6 class="text-muted mt-2">无数据</h6>
+            </div>
+        </th:block>
+
+        <!-- 有数据 -->
+        <th:block th:unless="${#lists.isEmpty(page.list)}">
+            <div class="row py-2 px-3">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 px-2" th:each="food:${page.list}" th:data-key="${food.id}">
+                    <!-- 菜品卡片 -->
+                    <div class="card border-0 mb-3 position-relative">
+                        <header class="card-header bg-light p-0 border-0">
+                            <!-- 菜品图片 -->
+                            <div class="overflow-hidden rounded-top">
+                                <img th:src="@{/foods/image/download/{id}(id=${food.id})}"
+                                     th:onerror="'javascript:this.src=\'' + @{/img/admin/menu_admin/no_data.svg} + '\''"
+                                     class="card-img food-img rounded-0 rounded-top" th:alt="${food.name}" th:title="${food.name}" />
+                            </div>
+
+                            <!-- 工具栏 -->
+                            <div class="tool d-flex align-items-center justify-content-center gap-3 bg-primary bg-opacity-50 py-2 rounded-bottom">
+                                <!-- 加入购物车 -->
+                                <div class="cart-tool" th:data-fid="${food.id}">
+                                    <img th:src="@{/img/ordinary/order_menu/cart.svg}" alt="购物车" title="购物车" />
+                                    <img th:src="@{/img/ordinary/order_menu/cart-empty-fill.svg}">
+                                </div>
+
+                                <!-- 菜品详情 -->
+                                <a th:href="@{/menus/food/detail(id=${food.id},sid=${food.sid})}" class="">
+                                    <img th:src="@{/img/admin/menu_admin/search.svg}" alt="搜索" title="搜索" class="search-tool" />
+                                </a>
+
+                                <!-- 已收藏 -->
+                                <img th:if="${collectionMap.get(food.id)}" th:src="@{/img/ordinary/order_menu/like-fill.svg}"
+                                     th:data-fid="${food.id}" alt="收藏" title="收藏" class="like-tool" />
+                                <!-- 未收藏 -->
+                                <img th:unless="${collectionMap.get(food.id)}" th:src="@{/img/ordinary/order_menu/likes.svg}"
+                                     th:data-fid="${food.id}" alt="收藏" title="收藏" class="like-tool" />
+                            </div>
+                        </header>
+
+                        <section class="card-body py-1">
+                            <!-- 星号评分 -->
+                            <div class="star-list">
+                                <span class="star-item" th:each="item:${#strings.arraySplit('1,2,3,4,5', ',')}">
+                                    <img th:src="@{/img/ordinary/order_menu/star-fill.svg}" />
+                                </span>
+                            </div>
+
+                            <!-- 菜品信息 -->
+                            <div class="mt-2">
+                                <h6 class="card-title">[[${food.name}]]</h6>
+                                <span class="card-text"><span>剩余：</span><span class="left-food-stock">[[${food.stock}]]</span></span><br />
+                                <span class="card-text"><span>单价：</span><span>￥[[${food.price}]]</span></span><br />
+                            </div>
+                        </section>
+
+                        <!-- 下架蒙层 -->
+                        <div class="removed-tip bg-dark bg-opacity-25 d-flex align-items-center justify-content-center user-select-none"
+                             th:classappend="${#strings.toString(food.status)} eq '2' ? 'd-block' : 'd-none'">
+                            已下架
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+
+        <script th:src="@{/js/ordinary/order_menu.js}"></script>
+        <script th:inline="javascript">
+            $(function () {
+                const contextPath = /*[[${#request.contextPath}]]*/ '';
+
+                $(".like-tool").on("click", function () {
+                   const src = $(this).attr("src"),
+                       fid = $(this).data("fid");
+
+                   if (src.indexOf("likes") !== -1) {
+                       $(this).attr("src",`${contextPath}/img/ordinary/order_menu/like-fill.svg`);
+                       setCollected(contextPath, "1", fid);
+                       return;
+                   }
+
+                   $(this).attr("src",`${contextPath}/img/ordinary/order_menu/likes.svg`);
+                    setCollected(contextPath, "0", fid);
+                });
+
+                $(".cart-tool").on("click", function() {
+                    addCart(contextPath, $(this).data("fid"));
+                });
+            });
+        </script>
+    </article>
+</html>

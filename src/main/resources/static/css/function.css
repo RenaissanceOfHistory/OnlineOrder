@@ -1,0 +1,17 @@
+aside img {
+    width: 20px;
+    height: 20px;
+}
+
+header .title,
+aside {
+    background-color: #333;
+}
+
+section aside a:hover,
+section aside a:active,
+section aside a:focus {
+    background-color: #555;
+    transition: .3s;
+    cursor: pointer;
+}

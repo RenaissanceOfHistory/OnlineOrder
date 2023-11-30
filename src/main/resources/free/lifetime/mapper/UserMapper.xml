@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="free.lifetime.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="free.lifetime.model.User">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="state" jdbcType="CHAR" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <association property="userDetail" column="id" select="free.lifetime.mapper.UserDetailMapper.selectByUid" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, username, password, state, create_time
+  </sql>
+
+  <sql id="Selective_Column_List">
+    <trim prefix=" " suffix=" " suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="free.lifetime.model.User" keyProperty="id" useGeneratedKeys="true">
+    insert into t_user (id, username, password, 
+      state, create_time)
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{state,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="free.lifetime.model.User" keyProperty="id" useGeneratedKeys="true">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="free.lifetime.model.User">
+    update t_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="free.lifetime.model.User">
+    update t_user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      state = #{state,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*)
+    from t_user
+    <where>
+      <if test="id != null">
+        id != #{id}
+      </if>
+      <if test="username != null and username != ''">
+        and username = #{username}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectPrimaryKeyByNameAndPwd" resultType="java.lang.Long">
+    select id
+    from t_user
+    where username = #{username} and password = #{password}
+  </select>
+
+  <select id="selectState" resultType="java.lang.String">
+    select state
+    from t_user
+    where id = #{id};
+  </select>
+
+  <select id="selectList" resultMap="BaseResultMap">
+    select id, username
+    from t_user
+    <where>
+      <if test="username != null and username != ''">
+        username like "%"#{username}"%"
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteBatch">
+    delete from t_user
+    where id in
+    (
+    <foreach collection="idList" item="id" separator=",">
+      #{id}
+    </foreach>
+    )
+  </delete>
+</mapper>

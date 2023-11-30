@@ -1,0 +1,49 @@
+server:
+  port: 8766
+  servlet:
+    context-path: /online-order/v1
+
+spring:
+  application:
+    name: online-order
+  datasource: # MyQL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${dev.host}:3306/db_online_order?serverTimezone=Asia/Shanghai
+    username: root
+    password: 8019
+  redis: # Redis
+    host: ${dev.host}
+    port: 6379
+    password: r887GGYHJd
+  thymeleaf: # Thymeleaf
+    cache: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mail:
+    host: smtp.163.com
+    username: wyyx_1365@163.com
+    password: YPGEGFRXJDCVILSW
+    default-encoding: UTF-8
+
+mybatis:
+  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    default-enum-type-handler: free.lifetime.enums.EnumTypeHandler
+
+
+user: # 请求白名单
+  white-list:
+  - /users/login/**
+  - /users/addUser/**
+  - /users/enroll/**
+  - /users/code
+  - /error
+  - /css/**
+  - /js/**
+  - /img/**
+  - /favicorn.svg
+
+dev: # 开发环境
+  host: 192.168.227.134
+

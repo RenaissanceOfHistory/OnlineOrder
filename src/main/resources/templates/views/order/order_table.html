@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 订单表格 -->
+<article class="order-table p-2" th:fragment="article">
+    <ul class="list-group list-unstyled bg-light w-100">
+        <!-- 表头 -->
+        <li class="list-group-item fw-bold font-monospace rounded px-0 text-dark" style="font-size: 0.8em;">
+            <span>#</span>
+            <span>订单编号</span>
+            <span>商品名称</span>
+            <span>单价</span>
+            <span>购买数量</span>
+            <span>总额</span>
+            <span>收货人</span>
+            <span>收货地址</span>
+            <span>下单时间</span>
+            <span>订单状态</span>
+            <span>操作</span>
+        </li>
+
+        <!-- 无数据时显示 -->
+        <th:block th:if="${#lists.isEmpty(page.list)}">
+            <li class="py-5 d-flex align-items-center flex-column bg-white">
+                <img th:src="@{/img/admin/menu_admin/no_data.svg}" alt="无数据" title="" class="w-25 h-auto" />
+                <h6 class="text-muted mt-2">无数据</h6>
+            </li>
+        </th:block>
+
+        <!-- 有数据时显示 -->
+        <th:block th:unless="${#lists.isEmpty(page.list)}">
+            <li class="list-group-item list-group-item-action rounded px-0 mt-2 text-muted"
+                th:each="order:${page.list}">
+                <!-- 批量删除 -->
+                <span>
+                    <label>
+                        <input type="checkbox" class="form-check-input order-id" name="orderId" th:value="${order.id}" />
+                    </label>
+                </span>
+
+                <!-- 订单编号 -->
+                <span>[[${order.id}]]</span>
+
+                <!-- 商品名 -->
+                <span class="position-relative">
+                    <img th:src="@{'/foods/image/download/' + ${order.food.id}}" class="rounded order-table-img"
+                         th:alt="${order.food.name}" th:title="${order.food.name}"
+                         th:onerror="'javascript:this.src=\'' + @{/img/admin/menu_admin/no_data.svg} + '\''" />
+                    <span style="margin-left: 2.2em;">[[${#strings.abbreviate(order.food.name, 5)}]]</span>
+                </span>
+
+                <!-- 单价 -->
+                <span>[[${order.food.price}]]</span>
+
+                <!-- 购买数量 -->
+                <span>[[${order.count}]]</span>
+
+                <!-- 总额 -->
+                <span>[[${order.price}]]</span>
+
+                <!-- 收货人 -->
+                <span class="position-relative">
+                    <img th:src="@{'/users/image/download/' + ${order.user.id}}" class="rounded order-table-img"
+                         th:alt="${order.user.username}" th:title="${order.user.username}"
+                         th:onerror="'javascript:this.src=\'' + @{/img/admin/menu_admin/no_data.svg} + '\''" />
+                    <span style="margin-left: 2.2em;">[[${#strings.abbreviate(order.user.username, 5)}]]</span>
+                </span>
+
+                <!-- 收货地址 -->
+                <span>[[${#strings.abbreviate(order.userDetail.address, 7)}]]</span>
+
+                <!-- 下单时间 -->
+                <span>[[${#strings.abbreviate(#dates.format(order.createTime, 'yyyy年MM月dd日 hh时mm分ss秒'), 15)}]]</span>
+
+                <!-- 订单状态 -->
+                <span th:switch="${#strings.toString(order.status)}" class="order-status">
+                    <span th:case="Undelivered" class="text-dark rounded-pill px-2 py-1 shadow-sm">未派送</span>
+                    <span th:case="Deliver" class="bg-success bg-opacity-75 text-white rounded-pill px-2 py-1 shadow-sm">正派送</span>
+                    <span th:case="Delivered" class="bg-dark bg-opacity-50 text-white rounded-pill px-2 py-1 shadow-sm">已派送</span>
+                </span>
+
+                <!-- 操作 -->
+                <span class="action position-relative">
+                    <span th:switch="${#strings.toString(order.status)}" class="listed-action">
+                        <a th:case="Undelivered" th:href="@{/orders/status(id=${order.id},status='Deliver')}" class="btn btn-sm btn-primary opacity-75">派送</a>
+                        <a th:case="Deliver" th:href="@{/orders/status(id=${order.id},status='Deliver')}" class="btn btn-sm btn-secondary">派送</a>
+                        <a th:case="Delivered" th:href="@{/orders/status(id=${order.id},status='Deliver')}" class="btn btn-sm btn-primary opacity-75">派送</a>
+                    </span>
+                    <img th:src="@{/img/admin/menu_admin/more.svg}" />
+                    <div class="action-detail shadow rounded">
+                        <a class="btn btn-sm btn-primary opacity-75 update-order"
+                           th:href="@{/orders/form(id=${order.id})}">
+                            <img th:src="@{/img/admin/menu_admin/edit_white.svg}" title="" alt="" />
+                            <span>修改</span>
+                        </a>
+                        <button class="btn btn-sm btn-danger opacity-75 order-remove-btn" th:data-oid="${order.id}">
+                            <img th:src="@{/img/admin/menu_admin/trash.svg}" title="" alt="" />
+                            <span>删除</span>
+                        </button>
+                    </div>
+                </span>
+            </li>
+        </th:block>
+    </ul>
+</article>
+</html>

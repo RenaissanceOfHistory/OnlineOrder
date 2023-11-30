@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 店铺卡片 -->
+<article th:fragment="article" class="store-card">
+    <!-- 无数据 -->
+    <th:block th:if="${#lists.isEmpty(page.list)}">
+        <img th:src="@{/img/admin/menu_admin/no_data.svg}"
+             alt="无数据" title="" class="mx-auto d-block w-50 h-auto mt-5" />
+        <h6 class="text-muted mt-2 mx-auto text-center mb-5 small">无数据</h6>
+    </th:block>
+
+    <!-- 有数据 -->
+    <th:block th:unless="${#lists.isEmpty(page.list)}">
+        <div class="card mt-4 mb-3" th:each="store:${page.list}">
+            <!-- 卡片头 -->
+            <header class="card-header bg-primary bg-opacity-50 text-white text-center py-0">
+                <h6 class="card-title py-3 my-0" title="ID">
+                    [[${store.id}]]
+                </h6>
+            </header>
+            <!-- 卡片体 -->
+            <section class="card-body p-0">
+                <ul class="list-unstyled list-group-flush my-0">
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">店铺名称</span>
+                        <span class="col-8">[[${#strings.abbreviate(store.name, 12)}]]</span>
+                    </li>
+
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">简介</span>
+                        <span class="col-8">[[${#strings.abbreviate(store.desc, 12)}]]</span>
+                    </li>
+
+                    <li class="list-group-item d-flex align-items-center justify-content-evenly action">
+                        <a role="button" class="btn btn-sm btn-primary opacity-75 look-food"
+                           th:href="@{/stores/food(id=${store.id},name=${store.name})}">
+                            <img th:src="@{/img/admin/menu_admin/search.svg}" title="" alt="" />
+                            <span>查看菜品</span>
+                        </a>
+                        <a role="button" class="btn btn-sm btn-primary opacity-75 update-store"
+                           th:href="@{/stores/form(id=${store.id})}">
+                            <img th:src="@{/img/admin/menu_admin/edit_white.svg}" title="" alt="" />
+                            <span>修改</span>
+                        </a>
+                        <button role="button" class="btn btn-sm btn-danger opacity-75 store-remove-btn" th:data-sid="${store.id}">
+                            <img th:src="@{/img/admin/menu_admin/trash.svg}" title="" alt="" />
+                            <span>删除</span>
+                        </button>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </th:block>
+</article>
+</html>

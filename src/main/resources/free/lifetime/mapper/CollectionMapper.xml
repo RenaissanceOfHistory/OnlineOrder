@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="free.lifetime.mapper.CollectionMapper">
+    <resultMap id="BaseResultMap" type="free.lifetime.model.Collection">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="uid" jdbcType="BIGINT" property="uid" />
+        <result column="fid" jdbcType="BIGINT" property="fid" />
+        <result column="collected" jdbcType="CHAR" property="collected" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </resultMap>
+
+    <sql id="Base_Table">
+        t_collection
+    </sql>
+
+    <sql id="Base_Column_List">
+        id, uid, fid, collected, create_time
+    </sql>
+
+    <insert id="insertSelective">
+        insert into
+        <include refid="Base_Table" />
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            uid, fid,
+            <if test="collected != null">
+                collected,
+            </if>
+            <if test="createTime != null">
+                create_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            #{uid}, #{fid},
+            <if test="collected != null">
+                #{collected},
+            </if>
+            <if test="createTime != null">
+                #{createTime}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective">
+        update
+        <include refid="Base_Table" />
+        <set>
+            <if test="uid != null">
+                uid = #{uid},
+            </if>
+            <if test="fid != null">
+                fid = #{fid},
+            </if>
+            <if test="collected != null">
+                colected = #{collected},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+        delete from
+        <include refid="Base_Table" />
+        where id = #{id}
+    </delete>
+
+    <select id="selectCount" resultType="java.lang.Long">
+        select count(*)
+        from
+          <include refid="Base_Table" />
+        <where>
+            <if test="uid != null">
+                uid = #{uid}
+            </if>
+            <if test="fid != null">
+                and fid = #{fid}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateCollected">
+        update
+        <include refid="Base_Table" />
+        <set>
+            <if test="collected != null">
+                collected = #{collected},
+            </if>
+        </set>
+        where uid = #{uid} and fid = #{fid}
+    </update>
+
+    <select id="selectCollected" resultType="java.lang.String">
+        select collected
+        from
+        <include refid="Base_Table" />
+        where uid = #{uid} and fid = #{fid}
+    </select>
+</mapper>

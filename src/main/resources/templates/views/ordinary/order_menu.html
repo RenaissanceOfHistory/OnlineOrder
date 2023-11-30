@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 订餐 -->
+    <th:block th:fragment="article">
+        <header class="py-2">
+            <div class="d-flex align-items-center justify-content-between">
+                <h6>订餐</h6>
+                <span class="small d-flex align-items-center gap-1">
+                    <img th:src="@{/img/admin/sales_amount/home.svg}" style="width: 15px; height: 15px;" />
+                    <span class="fw-bold">Dashboard</span> || <span>订餐</span>
+                </span>
+            </div>
+        </header>
+
+        <section>
+            <div class="row">
+                <div class="col-12 col-md-5 col-lg-3 mb-3 mb-md-0">
+                    <aside th:replace="~{views/menu/menu_search::aside}"></aside>
+                </div>
+                <div class="col-12 col-md-7 col-lg-9">
+                    <article th:replace="~{views/menu/menu_list.html}"></article>
+
+                    <!-- 分页 -->
+                    <aside th:insert="~{components/pagination_arrow::pagination('/menus/list', '')}"
+                           class="bg-white rounded-bottom p-2 shadow-sm"></aside>
+                </div>
+            </div>
+        </section>
+    </th:block>
+</html>

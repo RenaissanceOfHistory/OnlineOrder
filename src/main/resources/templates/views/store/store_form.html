@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 店铺表单组件 -->
+<article th:fragment="form" class="p-4">
+    <!-- 头部 -->
+    <header class="mb-3">
+        <h4>店铺信息</h4>
+    </header>
+
+    <!-- 店铺表单 -->
+    <form class="store-form bg-white rounded-top p-3 text-secondary">
+        <input type="text" id="storeId" style="display: none;" th:value="${null eq store ? '' : store.id}" />
+
+        <!-- 店铺名称 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="storeName" class="form-label">店铺名称</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <input type="text" maxlength="100" id="storeName"
+                       class="form-control" th:value="${null eq store ? '' : store.name}" />
+            </div>
+        </div>
+
+        <!-- 店铺简介 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="storeDesc" class="form-label">店铺简介</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <textarea id="storeDesc" class="form-control font-monospace" th:text="${null eq store ? '' : store.desc}"
+                          maxlength="255" rows="5" placeholder="一些描述..."></textarea>
+            </div>
+        </div>
+    </form>
+
+    <!-- 底部 -->
+    <footer class="bg-white rounded-bottom p-3 text-center text-md-start">
+        <button class="btn btn-primary opacity-75 store-submit-btn col-12 col-sm-8 col-md-2">提交</button>
+    </footer>
+
+    <script th:src="@{/js/store/store_form.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(function () {
+            $(".store-submit-btn").on("click", async function () {
+                let callback = addItem,
+                    contextPath = /*[[${#request.contextPath}]]*/ '';
+                if (null !== [[${store}]]) callback = updateItem;
+                await callback(contextPath, "stores", getStoreObj());
+            });
+        });
+    </script>
+</article>
+</html>

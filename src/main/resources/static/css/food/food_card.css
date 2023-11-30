@@ -1,0 +1,8 @@
+.food-card .action img,
+.user-card .action img,
+.order-card .action img,
+.store-card .action img,
+.stock-card img {
+    width: 20px;
+    height: 20px;
+}

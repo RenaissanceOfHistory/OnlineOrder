@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="link">
+        <link rel="stylesheet" th:href="@{/css/admin/menu_admin.css}" />
+        <link rel="stylesheet" th:href="@{/css/food/food_table.css}" />
+        <link rel="stylesheet" th:href="@{/css/food/food_card.css}" />
+        <link rel="stylesheet" th:href="@{/css/header/header.css}" />
+        <link rel="stylesheet" th:href="@{/css/ordinary/section.css}" />
+        <link rel="stylesheet" th:href="@{/css/third/bootstrap.min.css}" />
+        <link rel="stylesheet" th:href="@{/css/user/user_table.css}" />
+        <link rel="stylesheet" th:href="@{/css/user/user_card.css}" />
+        <link rel="stylesheet" th:href="@{/css/user/profile.css}" />
+        <link rel="stylesheet" th:href="@{/css/order/order_table.css}" />
+        <link rel="stylesheet" th:href="@{/css/store/store_table.css}" />
+        <link rel="stylesheet" th:href="@{/css/store/store_food.css}" />
+        <link rel="stylesheet" th:href="@{/css/stock/stock_table.css}" />
+        <link rel="stylesheet" th:href="@{/css/utils/utils.css}" />
+        <link rel="stylesheet" th:href="@{/css/menu/menu_search.css}" />
+        <link rel="stylesheet" th:href="@{/css/menu/menu_list.css}" />
+        <link rel="stylesheet" th:href="@{/css/menu/menu_food.css}" />
+        <link rel="stylesheet" th:href="@{/css/ordinary/cart.css}" />
+        <link rel="stylesheet" th:href="@{/css/function.css}" />
+        <link rel="stylesheet" th:href="@{/css/index.css}" />
+    </th:block>
+
+    <th:block th:fragment="script">
+        <script th:src="@{/js/third/bootstrap.min.js}"></script>
+        <script th:src="@{/js/third/jquery-3.6.1.min.js}"></script>
+        <script th:src="@{/js/utils/utils.js}"></script>
+        <script th:src="@{/js/index.js}"></script>
+    </th:block>
+
+    <th:block th:fragment="head">
+        <meta charset="UTF-8" />
+        <meta name="viewport"
+              content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+        <title>网上订餐系统</title>
+        <link rel="icon" type="image/svg+xml" th:href="@{/favicorn.svg}" />
+    </th:block>
+</html>

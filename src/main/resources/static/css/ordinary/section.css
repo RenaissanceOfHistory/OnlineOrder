@@ -1,0 +1,18 @@
+section .dashboard {
+    background: radial-gradient(circle at left top, #c2dee6 10%, transparent 0) 0 0,
+    radial-gradient(circle at 96% 90%, #c2dee6 10%, transparent 0) 0 0;
+}
+
+section .content .left img {
+    width: 20px;
+    height: 20px;
+    background-color: #3398DB;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #3398DB;
+    display: inline-block;
+    margin-right: 7px;
+}
+
+section .content li {
+    font-size: 0.8em;
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 普通用户 -->
+    <section th:fragment="section" class="row" style="height: 89vh;">
+        <div class="col-2 p-0">
+            <!-- 侧边栏 -->
+            <aside th:replace="~{views/ordinary/function::aside}"></aside>
+        </div>
+        <div class="col-10 bg-light">
+            <!-- 功能 -->
+            <th:block th:switch="${funcIdx}">
+                <article th:case="0" th:insert="~{views/ordinary/order_menu::article}" class="container-fluid py-4"></article>
+                <article th:case="1" th:insert="~{views/ordinary/my_collection::article}" class="container-fluid py-4"></article>
+                <article th:case="2" th:insert="~{views/ordinary/cart::article}" class="container-fluid py-4"></article>
+                <article th:case="3" th:insert="~{views/ordinary/my_order::article}" class="container-fluid py-4"></article>
+            </th:block>
+        </div>
+    </section>
+</html>

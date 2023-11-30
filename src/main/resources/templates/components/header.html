@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 头部组件 -->
+    <header th:fragment="header" class="row position-sticky" style="top: 0; z-index: 900;">
+        <!-- Logo -->
+        <div class="col-2 text-white title text-center pt-2" style="font-size: 2.2vw">网上订餐系统</div>
+
+        <!-- 导航栏 -->
+        <div class="col-10 p-0">
+            <nav class="navbar navbar-expand p-0 h-100 shadow-sm">
+                <ul class="navbar-nav h-100 text-center w-100">
+                    <!-- 菜单 -->
+                    <li class="nav-item p-3 px-4 border-end">
+                        <img th:src="@{/img/header/menu.svg}" />
+                    </li>
+
+                    <!-- 搜索 -->
+                    <li class="nav-item p-3 px-4 me-auto search-item">
+                        <div class="input-group">
+                            <label for="search" class="input-group-text bg-transparent border-0">
+                                <img th:src="@{/img/header/mirror.svg}" />
+                            </label>
+                            <input type="text" id="search" placeholder="Search..."
+                                   class="form-control-sm form-control border-0 bg-light" maxlength="255" />
+                        </div>
+                    </li>
+
+                    <!-- 更多 -->
+                    <li class="nav-item p-3 px-4 border-end">
+                        <img th:src="@{/img/header/setting.svg}" />
+                    </li>
+
+                    <th:block th:if="${not #session.getAttribute('isRoot')}">
+                        <!-- 购物车 -->
+                        <li class="nav-item p-3 px-4 border-end position-relative">
+                            <a th:href="@{/menus/cart}">
+                                <img th:src="@{/img/header/cart.svg}" />
+                                <div class="cart-num">0</div>
+                            </a>
+                        </li>
+                    </th:block>
+
+                    <!-- 通知 -->
+                    <li class="nav-item p-3 px-4 border-end position-relative">
+                        <img th:src="@{/img/header/bell.svg}" />
+                        <div class="bell-dot"></div>
+                    </li>
+
+                    <!-- 用户头像 -->
+                    <li class="nav-item p-3 px-4 position-relative avatar">
+                        <label for="upload">
+                            <img th:src="@{/img/header/avatar.svg}" id="user-avatar"
+                                 style="width: 30px; height: 30px; border-radius: 50%" />
+                        </label>
+                        <input type="file" id="upload" accept=".jpg, .png, .jpeg" class="d-none" />
+                        <div class="avatar-dot"></div>
+
+                        <!-- 用户简要信息 -->
+                        <div class="user-profile card shadow">
+                            <header class="card-header bg-primary bg-opacity-75 text-white">
+                                <h5 class="card-title small" th:text="${username}">张三</h5>
+                                <h6 class="card-subtitle small">xxx@qq.com</h6>
+                            </header>
+                            <section class="card-body p-0">
+                                <ul class="list-group list-unstyled list-group-flush text-start">
+                                    <li class="profile">
+                                        <a class="list-group-item list-group-item-action border-bottom-0"
+                                            th:href="@{/users/profile}">
+                                            <img th:src="@{/img/header/edit.svg}" />
+                                            <span class="small">个人信息</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-action border-bottom-0">
+                                        <img th:src="@{/img/header/settings.svg}" />
+                                        <span class="small">设置</span>
+                                    </li>
+                                    <li class="logout">
+                                        <a class="list-group-item list-group-item-action border-bottom-0 rounded-bottom"
+                                            th:href="@{/users/logout}">
+                                            <img th:src="@{/img/header/exit.svg}" />
+                                            <span class="small">退出</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <script th:src="@{/js/header/header.js}"></script>
+        <script th:inline="javascript">
+            $(function () {
+                const contextPath = /*[[${#request.contextPath}]]*/ '',
+                    isRoot = /*[[${#session.getAttribute('isRoot')}]]*/ false;
+
+                $("#user-avatar").on("error", function () {
+                    $(this).attr("src", `${contextPath}/img/header/avatar.svg`);
+                    $(".avatar-dot").css("opacity", "0");
+                });
+                downloadAvatar(contextPath);
+                $("#upload").on("change", function () {
+                    uploadAvatar(contextPath, this.files[0]);
+                });
+
+                if (!isRoot) {
+                    setCartNum(contextPath);
+                }
+            });
+        </script>
+    </header>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 菜品表单组件 -->
+<article th:fragment="form" class="p-4">
+    <!-- 头部 -->
+    <header class="mb-3">
+        <h4>菜品信息</h4>
+    </header>
+
+    <!-- 菜品表单 -->
+    <form class="food-form bg-white rounded-top p-3 text-secondary">
+        <input type="text" id="foodId" style="display: none;" th:value="${null eq food ? '' : food.id}" />
+
+        <!-- 菜品名称 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="foodName" class="form-label">菜品名称</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <input type="text" maxlength="100" id="foodName"
+                       class="form-control" th:value="${null eq food ? '' : food.name}" />
+            </div>
+        </div>
+
+        <!-- 所属店铺 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="store" class="form-label">所属店铺</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <select id="store" class="form-select text-muted">
+                    <option value="">--选择店铺：</option>
+                    <option th:each="store:${storeList}" th:value="${store.id}"
+                        th:selected="${null eq food ? '' : food.sid} eq ${store.id}">
+                        [[${store.name}]]
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 单价 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="foodPrice" class="form-label">单价</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <input id="foodPrice" type="text" maxlength="10"
+                       class="form-control" th:value="${null eq food ? '' : food.price}" />
+            </div>
+        </div>
+
+        <!-- 容量 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="foodStock" class="form-label">容量</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <input id="foodStock" type="text" maxlength="10"
+                       class="form-control" th:value="${null eq food ? '' : food.stock}" />
+            </div>
+        </div>
+
+        <!-- 简介 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="foodDesc" class="form-label">简介</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <textarea id="foodDesc" class="form-control font-monospace" th:text="${null eq food ? '' : food.desc}"
+                          maxlength="255" rows="5" placeholder="一些描述..."></textarea>
+            </div>
+        </div>
+
+        <!-- 菜品图片 -->
+        <div class="row mb-3 mb-sm-2">
+            <div class="col-12 col-md-3">
+                <label for="foodImage" class="form-label">菜品图片</label>
+            </div>
+            <div class="col-12 col-md-9">
+                <label for="foodImage">
+                    <img th:src="@{${null eq food ? '' : food.image} eq '' ? '/img/food/cuisine.svg' : '/foods/image/download/' + ${food.id}}"
+                         th:onerror="'javascript:this.src=\'' + @{/img/food/cuisine.svg} + '\''"
+                         class="img-thumbnail food-img"
+                         style="width: 100px; height: 100px;" title="点击选择图片" alt="选择菜品" />
+                </label>
+                <input type="file" style="display: none;" id="foodImage" accept=".jpg, .png, .jpeg" />
+            </div>
+        </div>
+    </form>
+
+    <!-- 底部 -->
+    <footer class="bg-white rounded-bottom p-3 text-center text-md-start">
+        <button class="btn btn-primary opacity-75 food-submit-btn col-12 col-sm-8 col-md-2">提交</button>
+    </footer>
+
+    <script th:src="@{/js/food/food_form.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(function () {
+            $("#foodImage").on("change", async function () {
+                await changeImage(this, ".food-img");
+            });
+            $(".food-submit-btn").on("click", async function () {
+                let callback = addItem,
+                    contextPath = /*[[${#request.contextPath}]]*/ '';
+                if (null !== [[${food}]]) callback = updateItem;
+                await callback(contextPath, "foods", getFoodObj(contextPath));
+            });
+        });
+    </script>
+</article>
+</html>

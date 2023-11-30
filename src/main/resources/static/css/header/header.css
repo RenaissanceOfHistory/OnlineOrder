@@ -1,0 +1,90 @@
+header img {
+    width: 20px;
+    height: 20px;
+}
+
+header #search {
+    width: 0;
+    opacity: 1;
+    visibility: hidden;
+    transition: 1s;
+}
+
+header .nav-item {
+    cursor: pointer;
+    transition: .3s;
+}
+
+header .nav-item:hover {
+    background-color: #eee;
+}
+
+header .search-item:hover  #search {
+    width: 15em;
+    opacity: 1;
+    visibility: visible;
+}
+
+header .cart-num,
+header .bell-dot,
+header .avatar-dot {
+    position: absolute;
+    background-color: #3091fe;
+    border-radius: 50%;
+    z-index: 555;
+}
+
+header .cart-num {
+    top: 10%;
+    right: 20%;
+    color: #fff;
+    padding: 0 7px;
+    transform: scale(0.7);
+}
+
+header .bell-dot {
+    top: 30%;
+    right: 35%;
+    padding: 3px;
+}
+
+header .avatar-dot {
+    top: 30%;
+    right: 27%;
+    padding: 4px;
+    opacity: 0;
+}
+
+header .user-profile {
+    display: none;
+    position: absolute;
+    top: 98%;
+    right: 0;
+    z-index: 992;
+    width: 200px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+header .user-profile ul li {
+    cursor: pointer;
+}
+
+header .user-profile img {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+}
+
+header .user-profile ul li:nth-child(2) img {
+    width: 20px;
+    height: 20px;
+    margin-left: -4px;
+}
+
+header .avatar:hover .user-profile,
+header .user-profile:hover {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}

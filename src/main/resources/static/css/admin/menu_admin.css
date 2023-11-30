@@ -1,0 +1,33 @@
+.food-table,
+.user-table,
+.order-table,
+.store-table,
+.stock-table {
+    display: none;
+}
+
+.food-card,
+.user-card,
+.order-card,
+.store-card,
+.stock-card {
+    display: block;
+}
+
+@media screen and (min-width: 876px) {
+    .food-table,
+    .user-table,
+    .order-table,
+    .store-table,
+    .stock-table {
+        display: block;
+    }
+
+    .food-card,
+    .user-card,
+    .order-card,
+    .store-card,
+    .stock-card {
+        display: none;
+    }
+}

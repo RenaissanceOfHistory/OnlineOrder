@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 管理员 -->
+    <section th:fragment="section" class="row" style="height: 89vh;">
+        <!-- 侧边栏 -->
+        <div class="col-2 p-0">
+            <aside th:replace="~{views/admin/function::aside}"></aside>
+        </div>
+
+        <!-- 主体 -->
+        <div class="col-10 bg-light">
+            <th:block th:switch="${funcIdx}">
+                <article th:case="0" th:insert="~{views/admin/menu_admin::article}" class="container-fluid py-4"></article>
+                <article th:case="1" th:insert="~{views/admin/customer_admin::article}" class="container-fluid py-4"></article>
+                <article th:case="2" th:insert="~{views/admin/order_admin::article}" class="container-fluid py-4"></article>
+                <article th:case="3" th:insert="~{views/admin/sales_amount::article}" class="container-fluid py-4"></article>
+                <article th:case="4" th:insert="~{views/admin/sales_sum::article}" class="container-fluid py-4"></article>
+                <article th:case="5" th:insert="~{views/admin/store_admin::article}" class="container-fluid py-4"></article>
+                <article th:case="6" th:insert="~{views/admin/stock_admin::article}" class="container-fluid py-4"></article>
+                <article th:case="7" th:insert="~{views/admin/modify_password::article}" class="container-fluid py-4"></article>
+            </th:block>
+        </div>
+    </section>
+</html>

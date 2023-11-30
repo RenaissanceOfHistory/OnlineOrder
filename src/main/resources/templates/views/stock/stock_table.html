@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 库存表格 -->
+<article class="stock-table p-2" th:fragment="article">
+    <ul class="list-group list-unstyled bg-light w-100">
+        <!-- 表头 -->
+        <li class="list-group-item fw-bold font-monospace rounded px-0 text-dark">
+            <span>#</span>
+            <span>菜品ID</span>
+            <span>菜品名称</span>
+            <span>单价</span>
+            <span>店铺</span>
+            <span>容量</span>
+            <span>库存状态</span>
+            <span>操作</span>
+        </li>
+
+        <!-- 无数据时显示 -->
+        <th:block th:if="${#lists.isEmpty(page.list)}">
+            <li class="py-5 d-flex align-items-center flex-column bg-white">
+                <img th:src="@{/img/admin/menu_admin/no_data.svg}" alt="无数据" title="" class="w-25 h-auto" />
+                <h6 class="text-muted mt-2">无数据</h6>
+            </li>
+        </th:block>
+
+        <!-- 有数据时显示 -->
+        <th:block th:unless="${#lists.isEmpty(page.list)}">
+            <li class="list-group-item list-group-item-action rounded px-0 mt-2 text-muted"
+                th:each="food:${page.list}">
+                <!-- 批量删除 -->
+                <span>
+                    <label>
+                        <input type="checkbox" class="form-check-input food-id" name="foodId" th:value="${food.id}" />
+                    </label>
+                </span>
+
+                <!-- 菜品ID -->
+                <span>[[${food.id}]]</span>
+
+                <!-- 菜品图片 -->
+                <span class="position-relative">
+                    <img th:src="@{'/foods/image/download/' + ${food.id}}" class="rounded food-table-img"
+                         th:alt="${food.name}" th:title="${food.name}"
+                         th:onerror="'javascript:this.src=\'' + @{/img/admin/menu_admin/no_data.svg} + '\''" />
+                    <span>[[${#strings.abbreviate(food.name, 10)}]]</span>
+                </span>
+
+                <!-- 单价 -->
+                <span>[[${food.price}]]</span>
+
+                <!-- 店铺 -->
+                <span>[[${storeMap.get(food.sid).getName()}]]</span>
+
+                <!-- 容量 -->
+                <span>[[${food.stock}]]</span>
+
+                <!-- 库存状态 -->
+                <span>
+                    <span th:if="${food.stock >= 10}" class="bg-success bg-opacity-50 small text-white rounded-pill px-2 py-1 shadow">库存充足</span>
+                    <span th:unless="${food.stock >= 10}" class="bg-danger bg-opacity-50 small text-white rounded-pill px-2 py-1 shadow">库存不足</span>
+                </span>
+
+                <!-- 操作 -->
+                <span>
+                    <button class="btn btn-primary opacity-75 add-stock-btn"
+                        th:data-id="${food.id}" th:data-stock="${food.stock}">
+                        <img th:src="@{/img/admin/menu_admin/edit_white.svg}" />
+                        补货
+                    </button>
+                </span>
+            </li>
+        </th:block>
+    </ul>
+</article>
+</html>

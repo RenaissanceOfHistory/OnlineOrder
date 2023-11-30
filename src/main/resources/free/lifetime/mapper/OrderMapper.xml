@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="free.lifetime.mapper.OrderMapper">
+    <resultMap id="BaseResultMap" type="free.lifetime.model.Order">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="fid" jdbcType="BIGINT" property="fid" />
+        <result column="uid" jdbcType="BIGINT" property="uid" />
+        <result column="count" jdbcType="BIGINT" property="count" />
+        <result column="price" jdbcType="DECIMAL" property="price" />
+        <result column="status" jdbcType="CHAR" property="status" />
+        <result column="paid" jdbcType="CHAR" property="paid" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <association property="user" column="uid" select="free.lifetime.mapper.UserMapper.selectByPrimaryKey" />
+        <association property="userDetail" column="uid" select="free.lifetime.mapper.UserDetailMapper.selectByUid" />
+        <association property="food" column="fid" select="free.lifetime.mapper.FoodMapper.selectByPrimaryKey" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, fid, uid, `count`, price, `status`, paid, create_time
+    </sql>
+
+    <sql id="Base_Table">
+        t_order
+    </sql>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        <include refid="Base_Table" />
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="uid != null">
+                and uid = #{uid}
+            </if>
+            <if test="fid != null">
+                and fid = #{fid}
+            </if>
+            and `count` > 0
+        </where>
+    </select>
+
+    <insert id="insertSelective">
+        insert into
+        <include refid="Base_Table" />
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderList[0].id != null">
+                id,
+            </if>
+            <if test="orderList[0].fid != null">
+                fid,
+            </if>
+            <if test="orderList[0].uid != null">
+                uid,
+            </if>
+            <if test="orderList[0].count != null">
+                `count`,
+            </if>
+            <if test="orderList[0].price != null">
+                price,
+            </if>
+            <if test="orderList[0].status != null">
+                `status`,
+            </if>
+            <if test="orderList[0].paid != null">
+                paid,
+            </if>
+            <if test="orderList[0].createTime != null">
+                create_time
+            </if>
+        </trim>
+        values
+        <foreach collection="orderList" item="order" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="order.id != null">
+                    #{order.id},
+                </if>
+                <if test="order.fid != null">
+                    #{order.fid},
+                </if>
+                <if test="order.uid != null">
+                    #{order.uid},
+                </if>
+                <if test="order.count != null">
+                    #{order.count},
+                </if>
+                <if test="order.price != null">
+                    #{order.price},
+                </if>
+                <if test="order.status != null">
+                    #{order.status},
+                </if>
+                <if test="order.paid != null">
+                    #{order.paid},
+                </if>
+                <if test="order.createTime != null">
+                    #{order.createTime},
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective">
+        update
+        <include refid="Base_Table" />
+        <set>
+            <if test="fid != null">
+                fid = #{fid},
+            </if>
+            <if test="uid != null">
+                uid = #{uid},
+            </if>
+            <if test="count != null">
+                `count` = #{count},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="status != null">
+                `status` = #{status},
+            </if>
+            <if test="paid != null">
+                paid = #{paid},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+        delete from
+        <include refid="Base_Table" />
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteBatch">
+        delete from
+        <include refid="Base_Table" />
+        where id in
+        (
+        <foreach collection="idList" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select id, fid, uid, `count`
+        from
+        <include refid="Base_Table" />
+        where id = #{id}
+    </select>
+
+    <select id="selectSalesAmount" resultType="free.lifetime.model.SalesAmount">
+        select s.name as `storeName`, sum(o.count) as `amount`
+        from t_food f, t_order o, t_store s
+        where f.id = o.fid and f.sid = s.id
+        group by f.sid
+        order by `amount` desc
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*)
+        from
+        <include refid="Base_Table" />
+        <where>
+            <if test="uid != null">
+                uid = #{uid}
+            </if>
+            <if test="fid != null">
+                and fid = #{fid}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCartCount" resultType="java.lang.Long">
+        select sum(`count`)
+        from
+        <include refid="Base_Table" />
+        where uid = #{uid}
+        group by uid
+    </select>
+
+    <select id="selectByUidAndFid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        <include refid="Base_Table" />
+        where uid = #{uid} and fid = #{fid}
+    </select>
+
+    <select id="selectTotalPriceByUid" resultType="java.math.BigDecimal">
+        select sum(price)
+        from
+        <include refid="Base_Table" />
+        where uid = #{uid}
+        group by uid
+    </select>
+</mapper>

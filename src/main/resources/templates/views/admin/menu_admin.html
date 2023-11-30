@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- 菜单管理 -->
+    <th:block th:fragment="article">
+        <!-- 头部 -->
+        <header class="p-2 d-flex align-items-center flex-wrap">
+            <!-- 标题 -->
+            <h6 class="p-2 pb-md-0 d-inline-block">菜单列表</h6>
+
+            <!-- 按钮 -->
+            <button role="button" class="btn btn-danger opacity-75 btn-sm me-auto delete-food-batch">批量删除</button>
+
+            <!-- 店铺下拉列表 -->
+            <form class="d-inline-block me-md-1" style="width: 9em;" action="javascript:void(0)">
+                <div class="input-group input-group-sm">
+                    <select class="form-select select-store">
+                        <option value="">所属店铺</option>
+                        <option th:each="store:${storeMap.entrySet()}"
+                                th:selected="${searchFood eq null ? '' : searchFood.sid} eq ${store.key}"
+                                th:value="${store.key}">[[${store.value}]]</option>
+                    </select>
+                    <button role="button" class="btn btn-primary opacity-75 store-btn">
+                        <img th:src="@{/img/admin/menu_admin/search.svg}" />
+                    </button>
+                </div>
+            </form>
+
+            <!-- 食品模糊查询 -->
+            <form class="d-inline-block me-md-1" action="javascript:void(0)">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" id="search-food"
+                           th:value="${searchFood eq null ? '' : searchFood.name}"
+                           maxlength="255" style="width: 10em;" placeholder="Search" />
+                    <button class="btn btn-primary opacity-75 food-btn">
+                        <img th:src="@{/img/admin/menu_admin/search.svg}" />
+                    </button>
+                </div>
+            </form>
+
+            <!-- 按钮 -->
+            <a role="button" class="btn btn-outline-primary btn-sm opacity-75"
+                th:href="@{/foods/form}">添加商品</a>
+        </header>
+
+
+        <!-- 区 -->
+        <section class="bg-white rounded-2 mt-3">
+            <!-- 标题 -->
+            <div class="border-bottom border-2 p-3">
+                <h6 class="text-secondary">菜品列表</h6>
+            </div>
+
+            <!-- 表格显示 -->
+            <article th:replace="~{views/food/food_table::article}"></article>
+            <!-- 卡片显示 -->
+            <article th:replace="~{views/food/food_card::article}"></article>
+            <!-- 分页 -->
+            <aside th:replace="~{components/pagination::pagination('foods')}"></aside>
+        </section>
+
+
+        <script th:src="@{/js/admin/menu_admin.js}"></script>
+        <script type="text/javascript" th:inline="javascript">
+            $(function () {
+                const contextPath = /*[[${#request.contextPath}]]*/ '',
+                    eventList = [
+                        {element: ".delete-food-batch", event: "click", callback: removeBatch,
+                            params: {contextPath: contextPath, element: ".food-id", prefix: "foods"}},
+                        {element: ".store-btn", event: "click",
+                            callback: queryFood, params: {contextPath: contextPath}},
+                        {element: ".food-btn", event: "click",
+                            callback: queryFood, params: {contextPath: contextPath}},
+                        {element: ".select-page", event: "change", callback: changeFoodPage, params: {contextPath: contextPath}}
+                    ];
+
+                eventList.forEach(item =>  $(item.element).on(item.event, async () => await item.callback(item.params)));
+                $(".food-remove-btn").on("click", async function () {
+                    await removeItem({contextPath: contextPath, id: $(this).data("fid"), prefix: "foods"});
+                })
+            });
+        </script>
+    </th:block>
+</html>

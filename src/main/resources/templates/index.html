@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{components/import::head}" />
+    <th:block th:replace="~{components/import::link}" />
+    <th:block th:replace="~{components/import::script}" />
+</head>
+<body>
+    <noscript>抱歉，您的浏览器不支持 <code>JavaScript</code>!</noscript>
+
+    <div class="container-fluid">
+        <header th:replace="~{components/header::header}"></header>
+
+        <th:block th:if="${isRoot}">
+            <section th:replace="~{views/admin/admin::section}"></section>
+        </th:block>
+        <th:block th:unless="${isRoot}">
+            <section th:replace="~{views/ordinary/ordinary::section}"></section>
+        </th:block>
+
+        <footer th:replace="~{components/footer::footer}"></footer>
+    </div>
+</body>
+</html>

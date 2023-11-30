@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 编辑简介 -->
+<article th:fragment="article" class="rounded bg-white profile-user-detail mt-3 mt-lg-0">
+    <!--  -->
+    <header class="p-3 border-bottom small text-muted">
+        <h6 class="m-0">编辑简介</h6>
+    </header>
+
+    <!--  -->
+    <section class="p-3">
+        <form class="text-muted">
+            <div class="row mb-2">
+                <!-- 公司 -->
+                <div class="col-12 col-md-4 mb-2 mb-md-0">
+                    <label class="form-label mb-1" for="detail-company">公司</label>
+                    <input type="text" id="detail-company" class="form-control form-control-sm text-muted" maxlength="255" />
+                </div>
+
+                <!-- 用户名 -->
+                <div class="col-12 col-md-4 mb-2 mb-md-0">
+                    <label class="form-label mb-1" for="detail-username">用户名</label>
+                    <input type="text" id="detail-username" class="form-control form-control-sm text-muted"
+                           maxlength="255" th:value="${user.username}" />
+                </div>
+
+                <!-- 邮箱 -->
+                <div class="col-12 col-md-4">
+                    <label class="form-label mb-1" for="detail-email">邮箱</label>
+                    <input type="email" id="detail-email" class="form-control form-control-sm text-muted"
+                           maxlength="255" th:value="${userDetail.email}" />
+                </div>
+            </div>
+
+
+            <div class="row mb-2">
+                <!-- 姓 -->
+                <div class="col-12 col-md-6 mb-2 mb-md-0">
+                    <label class="form-label mb-1" for="detail-surname">姓</label>
+                    <input type="text" id="detail-surname" class="form-control form-control-sm text-muted" maxlength="255" />
+                </div>
+
+                <!-- 名 -->
+                <div class="col-12 col-md-6">
+                    <label class="form-label mb-1" for="name">名</label>
+                    <input type="text" id="name" class="form-control form-control-sm text-muted" maxlength="255" />
+                </div>
+            </div>
+
+            <!-- 地址 -->
+            <div class="mb-2">
+                <label class="form-label mb-1" for="detail-address">地址</label>
+                <textarea rows="1" id="detail-address" maxlength="255" th:text="${userDetail.address}"
+                          class="form-control form-control-sm text-muted"></textarea>
+            </div>
+
+            <div class="row mb-2">
+                <!-- 城市 -->
+                <div class="col-12 col-md-4 mb-2 mb-md-0">
+                    <label class="form-label mb-1" for="detail-city">城市</label>
+                    <input type="text" id="detail-city" class="form-control form-control-sm text-muted" maxlength="255" />
+                </div>
+
+                <!-- 邮编 -->
+                <div class="col-12 col-md-4 mb-2 mb-md-0">
+                    <label class="form-label mb-1" for="detail-postcode">邮编</label>
+                    <input type="text" id="detail-postcode" class="form-control form-control-sm text-muted" maxlength="255" />
+                </div>
+
+                <!-- 国家 -->
+                <div class="col-12 col-md-4">
+                    <label class="form-label mb-1" for="detail-country">国家</label>
+                    <select id="detail-country" class="form-select form-select-sm text-muted">
+                        <option value="">--选择--</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 关于我 -->
+            <div class="mb-2">
+                <label class="form-label mb-1" for="detail-desc">关于我</label>
+                <textarea rows="3" class="form-control form-control-sm text-muted font-monospace" id="detail-desc" placeholder="填写个人描述..."></textarea>
+            </div>
+
+            <div class="text-center text-md-start pt-3">
+                <button role="button" type="button"
+                        class="btn btn-sm btn-primary opacity-50 update-user-detail-btn col-12 col-sm-5 col-md-3">更新</button>
+            </div>
+        </form>
+    </section>
+</article>
+</html>

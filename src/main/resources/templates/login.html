@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{components/import::head}" />
+
+    <link rel="stylesheet" th:href="@{/css/third/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/utils/utils.css}" />
+    <th:block th:replace="~{components/import::script}" />
+</head>
+<body class="bg-primary bg-opacity-50">
+    <noscript>抱歉，您的浏览器不支持 <code>JavaScript</code>!</noscript>
+
+    <!-- 主容器 -->
+    <div class="container-fluid">
+        <!-- 段 -->
+        <section class="p-1 p-md-5">
+            <!-- 文章 -->
+            <article class="row bg-white rounded-3 col-12 col-sm-10 col-md-12 col-lg-8 mx-auto mt-3">
+                <!-- 大图片 -->
+                <div class="col-12 col-md-6 p-4 d-flex align-items-center justify-content-center">
+                    <img th:src="@{/img/login/order.jpg}" alt="在线订餐" title="" class="img-responsive w-75 rounded h-auto opacity-75" />
+                </div>
+
+                <!-- 登录表单 -->
+                <div class="col-12 col-md-6 p-5">
+                    <h3>网上订餐系统</h3>
+                    <h4 class="fw-bold">Hello, Welcome!</h4>
+                    <form class="form mt-3">
+                        <!-- 用户名 -->
+                        <div class="input-group">
+                            <label class="input-group-text bg-primary bg-opacity-10 border-0" for="username">
+                                <img th:src="@{/img/login/user.svg}" style="width: 20px; height: 20px;" />
+                            </label>
+                            <input id="username" name="username" type="text" maxlength="255" class="form-control bg-primary bg-opacity-10 border-0" />
+                        </div>
+
+                        <!-- 密码 -->
+                        <div class="input-group mt-2">
+                            <label class="input-group-text bg-primary bg-opacity-10 border-0" for="password">
+                                <img th:src="@{/img/login/lock.svg}" style="width: 20px; height: 20px;" />
+                            </label>
+                            <input id="password" name="password" maxlength="255" type="password" class="form-control bg-primary bg-opacity-10 border-0" />
+                        </div>
+
+                        <!-- 验证码 -->
+                        <div class="input-group my-2">
+                            <label class="input-group-text bg-primary bg-opacity-10 border-0 p-0" for="code">
+                                <img th:src="@{/users/code}" style="cursor: pointer; width: 60px; height: auto;" class="shadow-sm" id="code-img" title="点击获取验证码" />
+                            </label>
+                            <input id="code" name="code" maxlength="20" type="text"
+                                   class="form-control bg-primary bg-opacity-10 border-0" />
+                        </div>
+                    </form>
+
+                    <div th:replace="~{components/login_enroll::login}"></div>
+                    <div th:replace="~{components/login_enroll::enroll}"></div>
+                </div>
+            </article>
+        </section>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/login/login.js}"></script>
+</body>
+</html>

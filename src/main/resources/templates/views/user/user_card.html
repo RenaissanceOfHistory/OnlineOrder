@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 用户卡片 -->
+<article th:fragment="article" class="user-card">
+    <!-- 无数据 -->
+    <th:block th:if="${#lists.isEmpty(page.list)}">
+        <img th:src="@{/img/admin/menu_admin/no_data.svg}"
+             alt="无数据" title="" class="mx-auto d-block w-50 h-auto mt-5" />
+        <h6 class="text-muted mt-2 mx-auto text-center mb-5 small">无数据</h6>
+    </th:block>
+
+    <!-- 有数据 -->
+    <th:block th:unless="${#lists.isEmpty(page.list)}">
+        <div class="card mt-4 mb-3" th:each="user:${page.list}">
+            <!-- 卡片头 -->
+            <header class="card-header bg-primary bg-opacity-50 text-white text-center py-0">
+                <h6 class="card-title py-3 my-0" title="ID & 用户名">
+                    [[${user.id}]]/[[${#strings.abbreviate(user.username, 10)}]]
+                </h6>
+            </header>
+            <!-- 卡片体 -->
+            <section class="card-body p-0">
+                <ul class="list-unstyled list-group-flush my-0">
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">用户头像</span>
+                        <span class="col-8">
+                            <img th:src="@{'/users/image/download/' + ${user.id}}" class="rounded user-card-img"
+                                 th:alt="${user.username}" th:title="${user.username}"
+                                 th:onerror="'javascript:this.src=\'' + @{/img/admin/menu_admin/no_data.svg} + '\''" />
+                        </span>
+                    </li>
+
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">邮箱</span>
+                        <span class="col-8">[[${user.userDetail.email}]]</span>
+                    </li>
+
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">电话</span>
+                        <span class="col-8">[[${user.userDetail.phone}]]</span>
+                    </li>
+
+                    <li class="list-group-item text-muted d-flex align-items-center">
+                        <span class="col-4">地址</span>
+                        <span class="col-8">[[${user.userDetail.address}]]</span>
+                    </li>
+
+                    <li class="list-group-item d-flex align-items-center justify-content-evenly action">
+                        <a class="btn btn-sm btn-primary opacity-75 update-user"
+                           th:href="@{/users/form(uid=${user.id})}">
+                            <img th:src="@{/img/admin/menu_admin/edit_white.svg}" title="" alt="" />
+                            <span>修改</span>
+                        </a>
+                        <button class="btn btn-sm btn-danger opacity-75 user-remove-btn" th:data-uid="${user.id}">
+                            <img th:src="@{/img/admin/menu_admin/trash.svg}" title="" alt="" />
+                            <span>删除</span>
+                        </button>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </th:block>
+</article>
+</html>

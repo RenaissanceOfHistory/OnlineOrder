@@ -1,0 +1,97 @@
+package free.lifetime.service;
+
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@Slf4j
+@SpringBootTest
+class FileServiceTest {
+
+    @Autowired
+    private FileService fileService;
+
+    private static String avatar;
+
+    @BeforeAll
+    static void beforeAll() {
+        avatar = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHR" +
+                "ofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyM" +
+                "jIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAH0AfQDASIAAhEBAxEB/8QAGwABAQADAQEBAAAAAAAA" +
+                "AAAAAAECBAUGAwf/xAA3EAEAAgIBAgMGAggHAQEAAAAAAQIDEQQFMSFBURITIjJhcYGxFCNCUpGhweEzNWJykqLRJUP/xAAZ" +
+                "AQEAAwEBAAAAAAAAAAAAAAAAAQMEAgX/xAAkEQEBAQACAgICAgMBAAAAAAAAAQIDESExEkEyUQQTIkJhcf/aAAwDAQACEQMR" +
+                "AD8A/UAHqsYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                "AAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADKmO+SdUra0/SNtrH0zl3//AD9n/dOnN3me" +
+                "6mS300x069FzT82Wkfbcs46JPnnj/j/dx/dj9p/r1+nJHWnolvLPH41fO3Rs8fLfHb+ME5sX7P69fpzRs5On8rH4zhmY9a+LWmJ" +
+                "rOpiYn0lZNS+q5ss9gCQAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA+mHDkz5IpjrNrO1xOl48Gr5dZMn1" +
+                "7Q43yZx7dZxdOXx+n5+TqYr7NP3rOpg6Tgxam+8lvr2/g6Ax75ta/4vzxyMa0rSNVrFY9IjTIFTsAAAAfPJhx5o1kx1t94fQBy8" +
+                "/RqW8cN5pPpbxhy8/Gy8a2stJj0nyl6hjalb1mtoiYnvErsc+s+/KvXHL6eTHX5fSe9+N/wn+jkzE1mYmJiY7xLZjc3PCjWbn2g" +
+                "DpAAAAAAAAAAAAAAAAAAAAAAAKAgoCCgIKAgoCCgIKAgoCCgIKAgoCNji8TJy8ns18Kx81vROLxr8rNGOnhHeZ9Iejw4KYMUY6R" +
+                "qI/mp5eX4eJ7d4x35rHj8bHxsfsY669Z85fYGK3vzWn0AIAAAAAAAAAABp83gU5Vfaj4csdrev3bgmW5vcRZL4rymTFfDkml6zF" +
+                "o7wwej53CrysXh4ZI+W39Hnr1tS80tGrROphv4uSbn/WbePjWIoscoKAgoCCgIKAgoCCgIKAgoCCgIKAAAAAAAAAAAAAAAAAAAA" +
+                "ALWtr3ilY3aZ1EI63SOLuZ5Fo+lf6y55N/DPac5+V6b3D4teLgikfNPjafWWyDzrbb3WqToAQkAAAAAAAAAAAAAAc3qnD95Sc9I+" +
+                "OvzRHnDpE9nWdXN7iLO508kNvqHG/RuTMVj4LeNf/Go9HOpqdxks6vQAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZY8ds" +
+                "uSuOve06h6jFjrixVx1+Wsahxuj4fb5Nssx4Ujw+8u4x/yNd6+P6X8U8dgDOtAAAAAAAAAAAAAAAAAAafUuP7/iW1HxU+Krzz1s9" +
+                "nmOXi9xysmPyifD7Nf8bXvKnln2+IDSpAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPIHe6Tj9jhRbzvaZ/o33x4lPY4mKvp" +
+                "SH2ebu96ta8zqADlIAAAAAAAAAAAAAAAAAA4vWces2PJ+9XU/g7Tm9Zrvi1t+7f81vDetxxyTvLiAN7MAAAAAAAAAAAAAAAAAAAAA" +
+                "AAAAAAAAAAAAAAAAR3gS9XSNUrH0ZJHaFeW1gAAAAAAAAAAAAAAAAAAADS6rG+Bf6TE/wA260+p/wCX5fw/OHXH+URr1XngHpMgAA" +
+                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR3gI7wJesjtCpHaFeW1gAAAAAAAAAAAAAAAAAAADT6n/AJfl/D84bjT6n/l+X8Pzh1j" +
+                "8ojXqvPAPSZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACewl6yvyxP0V88FvbwY7etYn+T6PLawAAAAAAAAAAAAAAAAAAABp9U" +
+                "n/5+T66/NuNDq9tcLXraId8f5xzr1XBAeiygAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPRdNv7fBx+sfD/AAbbldFybplxTPa" +
+                "YtDqvO5J1uxqxe8gDh0AAAAAAAAAAAAAAAAAAOT1q/hix/WbOs8/1TJ7zm2iO1Iiq7gne3HJestIBuZgAAAAAAAAAAAAAAAAAAAAAA" +
+                "AAAAAAAAAAAAAAAG107N7nm0me1vhn8Xo3knpuHm/SONTJ561P3ZP5GfM0u4r9PuAzLgAAAAAAAAAAAAAAAAAGOS8Y8dr27VjcvLXvO" +
+                "TJa897TMy7XV8/sceMUT43nx+zhtn8fPU+SjlvnoAaFQAAAAAAAAAAAAAAAAAC6NABo0AGjQAaNABo0AGjQAaNABo0AGjQAaNACadLp" +
+                "HI93mnDafhv4x93OWLTW0WrOpidxLjeflOnWb1e3qx8OJyI5PHrkjv2tHpL7vPssvVapewBAAAAAAAAAAAAAAAJM6hXP6pyvc4PdVn4" +
+                "8n8oTnN1eoi3qduXzc/wCk8q14n4Y8K/Zr6B6Ukk6jLb3ezRoEoNGgA0aADRoANGgA0aADRoANGgA0aADQAAAAAAAAAAAAAAAAAAAAA" +
+                "AANvgcv9Fz/ABT+rt4W+n1egiYmNw8o63S+buI4+SfH9iZ/Jm5+Pv8Ayi7j19V1gGRcAAAAAAAAAAAAAkzruDHLlrhxWyXnVaxt5rPmt" +
+                "yM1slu89o9IbXUeZ+kZPd0n9VWf4z6tFs4eP4zu+1HJrvxABoVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEzE7juCB3On" +
+                "8+M9Yx5J1lj/s6DykTNZiYmYmO0w7XB6jGaIxZp1k8p8rf3ZOXh6/yyvxvvxXRAZ1oAAAAAAAACTMRG58IBXH6lz/a3gw28O1rR5/ROf" +
+                "1L294sE/D2tePP7OY1cPD/tpTvf1ABqUgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOp0/n5N+6yz7VYjwt5w69bV" +
+                "vG6zEw87wv8AGt/tdGlrUndZ0x8uJ8vC/Gr15dIatOX5Xj8YfeuSl+1olRZYs7ZgISAAD53zUp3tH2h8L8q0+FI19ZTM2otbGTJXHG7Tr" +
+                "6OFzOoZOTM0j4MfpHn925aZtMzMzMuPPdp4eOd91VyaoA1KQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG1wP8AGt/" +
+                "tdDTW4OGa0nJMeNu32bemXkvel2Z4Y6NMtGnDoi969rW/iy9/k/fY6NI6gynNkn9uWE2tbvaZ/FdGjqDHRplo0kY+Tiz3dzTkcjFOLNas" +
+                "9u8fZdxXz043HyAXqgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFiJmdREzPpCEoNrHwM1/GYikf6m1j6dir43m15/hDi8mY" +
+                "mYtcvz0+tONmv8ALjtr1nwdimLHjj4KVr9oZ6V3m/Tucf7cunTsk/Natf5tjFwMdJibTN5+vZuaNK7yarqYkY6NMtGnHbpjo0y0aOxjo0" +
+                "y0aOxjo0y0aOxjo0y0aOxjp88uCmavs3j7T6Pto0mXo6cy/Tr/ALF6z9/B8L8TPTvjmY9Y8Xa0aWTm04uI8/MTE6mNSO9bHS8avWLfeGt" +
+                "k6fhv8u6T9Ozuc0+3N479OUNvJ0/NTxpq8fTu1bVtSdWiYn0mFs1L6cWWe0AdIAAAAAAAAAAAAAAAAAABQEFAQUBBQEFAQUBBQEFZ4sOT" +
+                "Nb2cdZmfyRb0l830xYcmadY6TP5Ojg6ZSvjmn2p9I7N6tYrGqxERHlCnXNJ6WTjv252LpkR45rb/ANNf/W7jw48Uax0iv2fXRpRrete1k" +
+                "zIx0aZaNOUsdGmWjQMdGmWjQMdGmWjQMdGmWjQMdGmWjQMdGmWjQMdGmWjQMdGmWjQMdGmWjQMdGmWjQMdMb46ZI1esWj6vpo0dnTn5um" +
+                "UtucVvZn0nxhoZeNlwfPSYj1js7+kmImNT4wtzzantxcSvODr5+m4sm5x/q7fyc3Nx8uCdZK+Hr5SvzyZ0qubHyFFjlBQEFAQUBBQEFAQ" +
+                "UBBQAAAAAAAAAAAAAiJmYiImZntEPtx+Nk5NtUjwjvae0Oxx+Hj40fDG7+dp7qt8sz/67zi1o8fpkzq2eZiP3Y7/i6VMdcdYrSsVrHlDM" +
+                "0y63de10zJ6Q0ujTl0gpoENKaBBTQIaU0CCmgQ0ujQIKaBBQEFNAhpdAJoXQCC6NAmhdAILoBNJasWrMWiJifKWWgHN5HTIn4sE6n9ye3" +
+                "4ObatqWmt6zW0d4l6TT5Z+Nj5FdXr4+Ux3hdjms8VXrjl9PPjZ5PDycadz8VPK0f1azTLLO4pss9gDpAAAAAAAAAAAAAAAAAAAB38I7gN" +
+                "7h9Ptm1ky7rj8o85bHC6dFdZc8bt5Uny+7paZuTm+srsY+6wpSuOsVpEVrHaIZaXRpmWppNMtGgY6XS6TQGkZaNAx0ul0mgNJplo0DHRp" +
+                "lpNAaRlo0CaTTI0CaRkaBNJplo0CaFNAx0aZaNAmjS6NAx0aZaNAmjRpdAxNMtGgTRo0ugY6NMtGgYzETGp8Yn1cvl9Nmu8mCNx50/wDH" +
+                "V0rrO7m9xFzL7eXHa5nT654nJj1XJ/KzjWralpraJi0eExLZjkm54Z9ZuUAWOQAAAAAAAAAAAAAACImZiIjcyCxE2mIiNzPaIdng8CMER" +
+                "kyxE5PKP3f7rwOBGCIyZI3ln/q32Pl5u/GV+MdeahpRnWoKAhpQQgoJQ0oCCgIaUBBQEFAQUBBQEFAQUBNCgIKAmhQEFATQoCCgJoUBBQE" +
+                "avM4VeTXcarkjtb1+7bEzVl7iLO/by96Wx3ml4mLR3iWL0HN4deVTcajJHy2/pLg3pbHeaXjVo8Jhu4+Sbn/WfWfixAWuAAAAAAAAAAAA" +
+                "B2encH3URmyx8c/LE/s/3fHpnC9uYz5I+GPlifP6uwyc3L/rF3Hj7oAzLgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABpc/" +
+                "hRyae1TUZa9vr9G6Jzbm9xFnc6rysxNZmJjUx3iUdjqXC9uJz44+OPmj1hx2/j3Nztm1n40AWOQAAAABAAANrg8SeVm8f8ADr42n+jXx47" +
+                "ZclcdI3a06h6Tj4K8fDXHXy7z6yp5uT4zqe1mM919KxFaxERqI7QoMTQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOH" +
+                "1Lh+5ye9pH6u0+Meku4wyY65cdqXjdbRqYd8e7i9udZ+UeXH15OC3HzWx2/CfWHyb5ZZ3GazoASgAAAAAB1ej466yZJj4on" +
+                "UT9HWBg5vzrTj8QBW7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc/q2OtuN7cx8VZjU/dxAbeD8Gfk/IAXKwAH/2Q==";
+    }
+
+    @Test
+    void uploadAvatar() {
+        fileService.setSavePath("avatar");
+        String avatar = fileService.uploadImage(FileServiceTest.avatar);
+        log.info(avatar);
+    }
+
+    @Test
+    void downloadAvatar() {
+        fileService.setSavePath("avatar");
+        fileService.downloadImage("1700124993440.jpeg");
+    }
+
+    @Test
+    void removeAvatar() {
+    }
+}

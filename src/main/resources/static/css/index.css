@@ -1,0 +1,26 @@
+/* 返回顶部按钮 */
+.to-top {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    color: #555;
+    right: 5%;
+    bottom: 10%;
+    padding: 0 7px;
+    transform: scale(1.5) rotateX(180deg);  /* 放大为自身1.5倍，旋转180度 */
+    border-radius: 50%;         /* 圆形 */
+    box-shadow: 0 0 7px #999;   /* 阴影效果 */
+    cursor: pointer;
+    background-color: cadetblue;
+    user-select: none;          /* 禁止选择 */
+}
+
+.to-top:hover,
+.to-top:active {
+    color: #fff;
+    box-shadow: 0 0 5px #555;
+}
+
+label {
+    display: block;
+}

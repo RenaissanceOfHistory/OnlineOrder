@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 店铺表格 -->
+<article class="store-table p-2" th:fragment="article">
+    <ul class="list-group list-unstyled bg-light w-100">
+        <!-- 表头 -->
+        <li class="list-group-item fw-bold font-monospace rounded px-0 text-dark">
+            <span>#</span>
+            <span>店铺名称</span>
+            <span>店铺简介</span>
+            <span></span>
+        </li>
+
+        <!-- 无数据时显示 -->
+        <th:block th:if="${#lists.isEmpty(page.list)}">
+            <li class="py-5 d-flex align-items-center flex-column bg-white">
+                <img th:src="@{/img/admin/menu_admin/no_data.svg}" alt="无数据" title="" class="w-25 h-auto" />
+                <h6 class="text-muted mt-2">无数据</h6>
+            </li>
+        </th:block>
+
+        <!-- 有数据时显示 -->
+        <th:block th:unless="${#lists.isEmpty(page.list)}">
+            <li class="list-group-item list-group-item-action rounded px-0 mt-2 text-muted"
+                th:each="store:${page.list}">
+                <!-- 批量删除 -->
+                <span>
+                    <label>
+                        <input type="checkbox" class="form-check-input store-id" name="storeId" th:value="${store.id}" />
+                    </label>
+                </span>
+
+                <!-- 店铺名称 -->
+                <span>[[${#strings.abbreviate(store.name, 10)}]]</span>
+
+                <!-- 店铺简介 -->
+                <span>[[${#strings.abbreviate(store.desc, 16)}]]</span>
+
+                <!-- 操作 -->
+                <span class="action position-relative">
+                    <a class="btn btn-sm btn-info link-light opacity-75 look-food"
+                      th:href="@{/stores/food(id=${store.id},name=${store.name})}">
+                        <img th:src="@{/img/admin/menu_admin/search.svg}" title="" alt="" />
+                        <span>查看菜品</span>
+                    </a>
+                    <img th:src="@{/img/admin/menu_admin/more.svg}" />
+                    <div class="action-detail shadow rounded">
+                        <a class="btn btn-sm btn-primary opacity-75 update-store"
+                           th:href="@{/stores/form(id=${store.id})}">
+                            <img th:src="@{/img/admin/menu_admin/edit_white.svg}" title="" alt="" />
+                            <span>修改</span>
+                        </a>
+                        <button class="btn btn-sm btn-danger opacity-75 store-remove-btn" th:data-sid="${store.id}">
+                            <img th:src="@{/img/admin/menu_admin/trash.svg}" title="" alt="" />
+                            <span>删除</span>
+                        </button>
+                    </div>
+                </span>
+            </li>
+        </th:block>
+    </ul>
+</article>
+</html>

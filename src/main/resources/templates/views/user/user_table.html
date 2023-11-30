@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 用户表格 -->
+<article class="user-table p-2" th:fragment="article">
+    <ul class="list-group list-unstyled bg-light w-100">
+        <!-- 表头 -->
+        <li class="list-group-item fw-bold font-monospace rounded px-0 text-dark">
+            <span>#</span>
+            <span>用户ID</span>
+            <span>用户头像</span>
+            <span>用户名</span>
+            <span>邮箱</span>
+            <span>手机</span>
+            <span>住址</span>
+        </li>
+
+        <!-- 无数据时显示 -->
+        <th:block th:if="${#lists.isEmpty(page.list)}">
+            <li class="py-5 d-flex align-items-center flex-column bg-white">
+                <img th:src="@{/img/admin/menu_admin/no_data.svg}" alt="无数据" title="" class="w-25 h-auto" />
+                <h6 class="text-muted mt-2">无数据</h6>
+            </li>
+        </th:block>
+
+        <!-- 有数据时显示 -->
+        <th:block th:unless="${#lists.isEmpty(page.list)}">
+            <li class="list-group-item list-group-item-action rounded px-0 mt-2 text-muted"
+                th:each="user:${page.list}" th:style="|background-color: ${user.username eq username ? '#eee' : ''}|">
+                <!-- 批量删除 -->
+                <span>
+                    <label>
+                        <input type="checkbox" class="form-check-input user-id"
+                               th:disabled="${user.username eq username}"
+                               name="userId" th:value="${user.id}" />
+                    </label>
+                </span>
+
+                <!-- 用户ID -->
+                <span>[[${user.id}]]</span>
+
+                <!-- 用户头像 -->
+                <span class="position-relative">
+                    <img th:src="@{'/users/image/download/' + ${user.id}}" class="rounded user-table-img"
+                         th:alt="${user.username}" th:title="${user.username}"
+                         th:onerror="'javascript:this.src=\'' + @{/img/admin/menu_admin/no_data.svg} + '\''" />
+                </span>
+
+                <!-- 用户名 -->
+                <span>[[${#strings.abbreviate(user.username, 10)}]]</span>
+
+                <!-- 邮箱 -->
+                <span>[[${#strings.abbreviate(user.userDetail.email, 10)}]]</span>
+
+                <!-- 电话 -->
+                <span>[[${#strings.abbreviate(user.userDetail.phone, 11)}]]</span>
+
+                <!-- 地址 -->
+                <span>[[${#strings.abbreviate(user.userDetail.address, 12)}]]</span>
+
+                <!-- 操作 -->
+                <span class="action position-relative">
+                   <img th:src="@{/img/admin/menu_admin/more.svg}" />
+                    <div class="action-detail shadow rounded">
+                        <a class="btn btn-sm btn-primary opacity-75 update-user"
+                           th:href="@{/users/form(uid=${user.id})}">
+                            <img th:src="@{/img/admin/menu_admin/edit_white.svg}" title="修改" alt="修改" />
+                            <span>修改</span>
+                        </a>
+                        <button class="btn btn-sm opacity-75 user-remove-btn"
+                                th:classappend="${user.username eq username} ? 'disabled btn-secondary' : 'btn-danger'"
+                                th:data-uid="${user.id}">
+                            <img th:src="@{/img/admin/menu_admin/trash.svg}" title="删除" alt="删除" />
+                            <span>删除</span>
+                        </button>
+                    </div>
+                </span>
+            </li>
+        </th:block>
+    </ul>
+</article>
+</html>
